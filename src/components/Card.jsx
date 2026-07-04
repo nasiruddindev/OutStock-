@@ -6,7 +6,7 @@ import { GoPlus } from 'react-icons/go'
 import { CiSearch } from 'react-icons/ci'
 import { HiArrowPath } from 'react-icons/hi2'
 
-const Card = ({ src, text, salePrice, regularPrice }) => {
+const Card = ({ src, title, salePrice, regularPrice }) => {
   return (
     <div className={`w-69.25 h-112.5 group cursor-pointer`}>
       <div
@@ -18,16 +18,16 @@ const Card = ({ src, text, salePrice, regularPrice }) => {
         </div>
 
         <div className="absolute -right-10 bottom-18 w-12 h-12 bg-white shadow-xl flex justify-center items-center opacity-0 group-hover:opacity-100 group-hover:right-4 overflow-hidden duration-500">
-          <CiSearch />
+          <CiSearch className='text-black text-2xl'/>
         </div>
 
         <div className="absolute -right-10 bottom-5 w-12 h-12 bg-white shadow-xl flex justify-center items-center opacity-0 group-hover:opacity-100 group-hover:right-4 overflow-hidden duration-500">
-          <HiArrowPath />
+          <HiArrowPath className='text-black text-2xl'/>
         </div>
       </div>
 
       <div className={`relative w-full h-25 p-3`}>
-        <Pera text={text} className="pt-1" />
+        <Pera text={title} className="pt-1" />
         <ul className={`flex pt-2 `}>
           <li>
             <FaStar />
