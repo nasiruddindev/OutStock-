@@ -8,7 +8,7 @@ import BlogCard from '../components/BlogCard'
 const Blog = ({ products }) => {
 
   return (
-    <section className='pb-100'>
+    <section>
       <Container>
         <div className='bg-white shadow-xl px-7.5'>
           <Title text="Our Blog Posts"/>
@@ -19,7 +19,7 @@ const Blog = ({ products }) => {
           <Flex className="justify-between py-13">
             {
               products.slice(17,20).map((item,index)=>(
-                <BlogCard src={item.thumbnail} title={item.title} description={item.description}/>
+                <BlogCard id={item.id} key={index} src={item.thumbnail} title={item.title} description={item.description}/>
               ))
             }
 

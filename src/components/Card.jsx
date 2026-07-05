@@ -5,14 +5,19 @@ import { FaPlus, FaStar } from 'react-icons/fa'
 import { GoPlus } from 'react-icons/go'
 import { CiSearch } from 'react-icons/ci'
 import { HiArrowPath } from 'react-icons/hi2'
+import { Link } from 'react-router-dom'
 
-const Card = ({ src, title, salePrice, regularPrice }) => {
+const Card = ({ id, src, title, salePrice, regularPrice }) => {
   return (
     <div className={`w-69.25 h-112.5 group cursor-pointer`}>
       <div
         className={`relative w-full h-87.25 flex justify-center items-center bg-back`}
       >
-        <Image src={src} />
+
+          <Link to={`/productdetails/${id}`}>
+          <Image src={src} />
+          </Link>
+
         <div className="absolute rotate-90 top-4 left-1 w-15 h-7 bg-[#535353]">
           <p className="text-white text-sm p-1">SALE</p>
         </div>
@@ -27,23 +32,15 @@ const Card = ({ src, title, salePrice, regularPrice }) => {
       </div>
 
       <div className={`relative w-full h-25 p-3`}>
+        <Link to={`productdetails/${id}`}>
         <Pera text={title} className="pt-1" />
+        </Link>
         <ul className={`flex pt-2 `}>
-          <li>
-            <FaStar />
-          </li>
-          <li>
-            <FaStar />
-          </li>
-          <li>
-            <FaStar />
-          </li>
-          <li>
-            <FaStar />
-          </li>
-          <li>
-            <FaStar />
-          </li>
+          <li><FaStar/> </li>
+          <li><FaStar /></li>
+          <li><FaStar /> </li>
+          <li><FaStar /> </li>
+          <li> <FaStar /></li>
         </ul>
 
         <div className="flex gap-2 absolute left-3 -bottom-2 transition-all duration-500 ease-in-out group-hover:opacity-0 group-hover:-translate-y-4">

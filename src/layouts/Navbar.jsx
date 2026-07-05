@@ -9,6 +9,7 @@ import { IoBagOutline } from 'react-icons/io5'
 import { GiHamburgerMenu } from 'react-icons/gi'
 import { RxCross2 } from 'react-icons/rx'
 import Button from '../components/Button'
+import { Link } from 'react-router-dom'
 
 const Navbar = () => {
   let [cartOpen, setCartOpen] = useState(false)
@@ -24,7 +25,9 @@ const Navbar = () => {
           </div>
           <div className="w-5/12 ">
             <ul className="flex items-center justify-center gap-15">
+              <Link to="/">
               <ListItem text="Home" />
+              </Link>
               <ListItem text="About" />
               <ListItem text="Contact" />
               <ListItem text="Blog" />

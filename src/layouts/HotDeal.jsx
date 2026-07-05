@@ -23,6 +23,7 @@ const HotDeal = ({ products }) => {
           <Flex className={`py-13 flex-wrap justify-between gap-y-7`}>
             {products.slice(0, 8).map((item, index) => (
               <Card
+                id={item.id}
                 key={index}
                 src={item.thumbnail}
                 title={item.title}
@@ -51,7 +52,7 @@ const HotDeal = ({ products }) => {
 
             {
               products.slice(8,11).map((item,index)=>(
-                <BestSellingProducts src={item.thumbnail} title={item.title} salePrice={`$ ${item.price}`}/>
+                <BestSellingProducts id={item.id} key={index} src={item.thumbnail} title={item.title} salePrice={`$ ${item.price}`}/>
               ))
             }
             </Flex>
@@ -65,7 +66,7 @@ const HotDeal = ({ products }) => {
 
             {
               products.slice(11,14).map((item,index)=>(
-                <BestSellingProducts src={item.thumbnail} title={item.title} salePrice={`$ ${item.price}`}/>
+                <BestSellingProducts id={item.id} key={index} src={item.thumbnail} title={item.title} salePrice={`$ ${item.price}`}/>
               ))
             }
             </Flex>
@@ -79,7 +80,7 @@ const HotDeal = ({ products }) => {
 
             {
               products.slice(14,17).map((item,index)=>(
-                <BestSellingProducts src={item.thumbnail} title={item.title} salePrice={`$ ${item.price}`}/>
+                <BestSellingProducts id={item.id} key={index} src={item.thumbnail} title={item.title} salePrice={`$ ${item.price}`}/>
               ))
             }
             </Flex>
