@@ -6,8 +6,26 @@ import { GoPlus } from 'react-icons/go'
 import { CiSearch } from 'react-icons/ci'
 import { HiArrowPath } from 'react-icons/hi2'
 import { Link } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { addtocard } from '../slices/addToCardSlice'
 
 const Card = ({ id, src, title, salePrice, regularPrice }) => {
+
+
+  let dispatch = useDispatch()
+  let addCartItem = ()=>{
+
+    dispatch(addtocard({
+      title:title,
+      image:src,
+      price:salePrice,
+      quantity:1
+    }))
+
+  }
+
+
+
   return (
     <div className={`w-69.25 h-112.5 group cursor-pointer`}>
       <div
@@ -48,7 +66,7 @@ const Card = ({ id, src, title, salePrice, regularPrice }) => {
           <Pera text={salePrice} className={`text-black!`} />
         </div>
 
-        <div
+        <div onClick={addCartItem}
           className=" absolute not-first:left-0 -bottom-2 flex items-center
           gap-2 px-5 py-2 rounded-full  bg-white shadow-xl opacity-0 translate-y-5 scale-95 transition-all duration-500 ease-in-out
           group-hover:opacity-100 group-hover:translate-y-0  group-hover:scale-100"

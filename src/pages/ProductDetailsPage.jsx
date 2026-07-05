@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../layouts/Navbar'
 import { FaOtter, FaStar } from 'react-icons/fa'
-import Footer from '../layouts/Footer'
 import Container from '../components/Container'
 import Card from '../components/Card'
 import Title from '../components/Title'
@@ -29,15 +27,13 @@ const ProductDetailsPage = () => {
   // Proudcts details id verify part start
 
   let [allData, setAllData] = useState([])
-  console.log(allData)
   let params = useParams()
-  console.log(params)
 
   useEffect(() => {
     fetch(`https://dummyjson.com/products/${params.id}`)
       .then((res) => res.json())
       .then((data) => setAllData(data))
-  }, [])
+  }, [params.id])
 
   // Proudcts details id verify part end
 

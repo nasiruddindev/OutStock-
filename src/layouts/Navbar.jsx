@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from '../components/Container'
 import Flex from '../components/Flex'
 import Image from '../components/Image'
@@ -10,11 +10,41 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import { RxCross2 } from 'react-icons/rx'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 
 const Navbar = () => {
+  let [allData, setAllData] = useState([])
   let [cartOpen, setCartOpen] = useState(false)
   let [searchOpen, setSearchOpen] = useState(false)
   let [accountOpen, setAccountOpen] = useState(false)
+
+  // Search box functionallity start
+
+  let [input, setInput] = useState([])
+  let [search, setSearch] = useState([])
+
+  useEffect(() => {
+    fetch('https://dummyjson.com/products')
+      .then((res) => res.json())
+      .then((data) => setAllData(data.products))
+  }, [])
+
+  let searchHandle = (e) => {
+    setInput(e.target.value)
+    let search = allData.filter((item) =>
+      item.title.toLowerCase().includes(e.target.value.toLowerCase())
+    )
+
+    setSearch(search)
+  }
+
+  // Search box functionallity end
+
+  // add to cart functionallity start
+
+  let data = useSelector((state)=>state.cart.value)
+
+  // add to cart functionallity end
 
   return (
     <nav className="bg-back py-7">
@@ -26,10 +56,12 @@ const Navbar = () => {
           <div className="w-5/12 ">
             <ul className="flex items-center justify-center gap-15">
               <Link to="/">
-              <ListItem text="Home" />
+                <ListItem text="Home" />
               </Link>
               <ListItem text="About" />
-              <ListItem text="Contact" />
+              <Link to="contact">
+                <ListItem text="Contact" />
+              </Link>
               <ListItem text="Blog" />
             </ul>
           </div>
@@ -51,6 +83,8 @@ const Navbar = () => {
               {searchOpen && (
                 <div className="absolute top-8 left-0 flex bg-white items-center justify-between px-3 py-2 w-full shadow-lg rounded-md gap-2 z-50">
                   <input
+                    value={input}
+                    onChange={searchHandle}
                     type="text"
                     placeholder="Search the store"
                     className="bg-white border-none focus:outline-none "
@@ -65,6 +99,23 @@ const Navbar = () => {
                   ></div>
                 </div>
               )}
+
+              {search.length>0&&
+                <div className="absolute top-18 left-0 w-full  bg-linear-to-r from-black/40 to-black/70 rounded p-5 z-10">
+                {search.map((item, index) => (
+                  <ul key={index}>
+                    <Link onClick={()=>{
+                      setInput(item.title)
+                      setSearch([])
+                    }} to={`productdetails/${item.id}`}>
+                    <li className="text-white text-xl font-semibold py-3">
+                      {item.title}
+                    </li>
+                    </Link>
+                  </ul>
+                ))}
+              </div>
+              }
 
               {/* Search Functionality End */}
 
@@ -81,7 +132,7 @@ const Navbar = () => {
               </div>
 
               {cartOpen && (
-                <div className="overflow-y-scroll z-50 absolute top-13 right-0 w-full bg-[#F5F5F5] px-4 py-6">
+                <div className="overflow-y-scroll z-50 absolute top-13 right-0 w-full bg-back px-4 py-6">
                   <div className="pb-5 cursor-pointer">
                     <RxCross2
                       onClick={() => setCartOpen(false)}
@@ -97,22 +148,26 @@ const Navbar = () => {
                     <li className="w-1/5 text-center">Total</li>
                   </ul>
 
-                  <ul className="flex items-center pt-5 ">
-                    <li className="w-1/5 text-center">juh</li>
+                  {
+                    data.map((item,index)=>(
+                      <ul className="flex items-center pt-5 ">
+                    <li className="w-1/5 text-center">{item.title.substring(0,15)}</li>
 
                     <li className="w-1/5">
-                      <Image className="w-full" image={Logo} />
+                      <Image className="w-full" src={item.image} />
                     </li>
-                    <li className="w-1/5 h-10 text-center border border-black/40 flex justify-between px-2 rounded-md">
+                    <li className="w-1/5 h-10  border border-black/40 flex justify-between px-2 rounded-md">
                       <button className="cursor-pointer">-</button>
 
-                      <button>9</button>
+                      <button>{item.quantity}</button>
 
                       <button className="cursor-pointer">+</button>
                     </li>
-                    <li className="w-1/5 text-center">99$</li>
+                    <li className="w-1/5 text-end">{item.price}</li>
                     <li className="w-1/5 text-center">88$</li>
                   </ul>
+                    ))
+                  }
 
                   <div className="py-5  border-t mt-10">
                     <p className="text-2xl px-2 font-pop font-medium text-end ">
@@ -130,57 +185,57 @@ const Navbar = () => {
 
               {/* Cart Functionality End */}
 
-              <div onClick={()=>setAccountOpen(!accountOpen)} >
+              <div onClick={() => setAccountOpen(!accountOpen)}>
                 <GiHamburgerMenu className="text-black text-lg cursor-pointer" />
               </div>
 
-              {
-                accountOpen && (
-                  <div className="absolute top-full right-0 mt-3 w-64 bg-white border border-gray-200 shadow-lg p-5 z-50">
-                <h3 className="text-3xl font-semibold text-gray-700 mb-5">
-                  My Account
-                </h3>
+              {accountOpen && (
+                <div className="absolute top-full right-0 mt-3 w-64 bg-white border border-gray-200 shadow-lg p-5 z-50">
+                  <h3 className="text-3xl font-semibold text-gray-700 mb-5">
+                    My Account
+                  </h3>
 
-                <ul className="space-y-4">
-                  <li className="text-2xl text-gray-700 font-pop hover:text-orange-500 transition cursor-pointer">Sign in</li>
+                  <ul className="space-y-4">
+                    <li className="text-2xl text-gray-700 font-pop hover:text-orange-500 transition cursor-pointer">
+                      Sign in
+                    </li>
 
-                  <li className="text-2xl text-gray-700 font-pop hover:text-orange-500 transition cursor-pointer">Register</li>
-                </ul>
+                    <li className="text-2xl text-gray-700 font-pop hover:text-orange-500 transition cursor-pointer">
+                      Register
+                    </li>
+                  </ul>
 
-                <h4 className="mt-6 mb-4 text-2xl font-semibold text-gray-70 font-pop">
-                  currency
-                </h4>
+                  <h4 className="mt-6 mb-4 text-2xl font-semibold text-gray-70 font-pop">
+                    currency
+                  </h4>
 
-                <ul className="space-y-4">
-                  <li>
-                    <button className="flex items-center gap-3 hover:text-orange-500 transition cursor-pointer">
-                      <Image
-                        src="https://flagcdn.com/w40/us.png"
-                        alt="USA"
-                        className="w-6 h-4 object-cover"
-                      />
-                      <span className="text-xl text-gray-700">USD</span>
-                    </button>
-                  </li>
+                  <ul className="space-y-4">
+                    <li>
+                      <button className="flex items-center gap-3 hover:text-orange-500 transition cursor-pointer">
+                        <Image
+                          src="https://flagcdn.com/w40/us.png"
+                          alt="USA"
+                          className="w-6 h-4 object-cover"
+                        />
+                        <span className="text-xl text-gray-700">USD</span>
+                      </button>
+                    </li>
 
-                  <li>
-                    <button className="flex items-center gap-3 hover:text-orange-500 transition cursor-pointer">
-                      <Image
-                        src="https://flagcdn.com/w40/au.png"
-                        alt="Australia"
-                        className="w-6 h-4 object-cover"
-                      />
-                      <span className="text-xl text-gray-700">
-                        Australian Dollar
-                      </span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-                )
-              }
-
-
+                    <li>
+                      <button className="flex items-center gap-3 hover:text-orange-500 transition cursor-pointer">
+                        <Image
+                          src="https://flagcdn.com/w40/au.png"
+                          alt="Australia"
+                          className="w-6 h-4 object-cover"
+                        />
+                        <span className="text-xl text-gray-700">
+                          Australian Dollar
+                        </span>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </Flex>
           </div>
         </Flex>
