@@ -5,7 +5,8 @@ import Flex from '../components/Flex'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import Image from '../components/Image'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { decrement, increment } from '../slices/addToCardSlice'
 
 const Cart = () => {
 
@@ -21,6 +22,15 @@ const Cart = () => {
     })
     setSubTotal(subTotal)
   },[])
+
+  let dispatch = useDispatch()
+
+  let handleIncrement = (item) => {
+    dispatch(increment(item))
+  }
+  let handleDecrement = (item) => {
+    dispatch(decrement(item))
+  }
 
 
   return (
@@ -74,11 +84,11 @@ const Cart = () => {
 
             <div className="w-1/4">
               <li className="w-1/3 h-10 mx-auto border border-black/40 flex justify-between px-2 rounded-md">
-                <button className="cursor-pointer">-</button>
+                <button onClick={()=>handleDecrement(item)} className="cursor-pointer">-</button>
 
                 <button>{item.quantity}</button>
 
-                <button className="cursor-pointer">+</button>
+                <button onClick={()=>handleIncrement(item)} className="cursor-pointer">+</button>
               </li>
             </div>
 

@@ -11,7 +11,7 @@ import { RxCross2 } from 'react-icons/rx'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { increment } from '../slices/addToCardSlice'
+import { decrement, increment } from '../slices/addToCardSlice'
 
 const Navbar = () => {
   let [allData, setAllData] = useState([])
@@ -50,8 +50,18 @@ const Navbar = () => {
     dispatch(increment(item))
   }
   let handleDecrement = (item)=>{
-    dispatch(increment(item))
+    dispatch(decrement(item))
   }
+
+  let [total,setTotal] = useState()
+
+  useEffect(()=>{
+    let total=0
+    data.map((item)=>{
+      total+=item.price*item.quantity
+    })
+    setTotal(total)
+  },[data])
 
   // add to cart functionallity end
 
@@ -132,12 +142,20 @@ const Navbar = () => {
 
               <div
                 onClick={() => setCartOpen(!cartOpen)}
-                className="flex items-center gap-2 cursor-pointer"
+                className="relative flex items-center gap-2 cursor-pointer"
               >
                 <IoBagOutline className="text-black text-lg" />
                 <p className="text-black text-base font-pop font-normal">
                   Cart
                 </p>
+                {
+                  data.length>1 &&
+                  <div className='absolute -top-3 -right-3 h-5 w-5 rounded-full bg-yellow-400 flex justify-center items-center'>
+                  <p className="text-black text-sm font-pop font-normal">
+                  {data.length}
+                </p>
+                </div>
+                }
               </div>
 
               {cartOpen && (
@@ -173,14 +191,14 @@ const Navbar = () => {
                       <button onClick={()=>handleIncrement(item)} className="cursor-pointer">+</button>
                     </li>
                     <li className="w-1/5 text-end">{item.price}</li>
-                    <li className="w-1/5 text-center">88$</li>
+                    <li className="w-1/5 text-center">${(item.price*item.quantity.toFixed(2))}</li>
                   </ul>
                     ))
                   }
 
                   <div className="py-5  border-t mt-10">
                     <p className="text-2xl px-2 font-pop font-medium text-end ">
-                      Total : 0$
+                      Total : ${total.toFixed(2)}
                     </p>
 
                     <div
