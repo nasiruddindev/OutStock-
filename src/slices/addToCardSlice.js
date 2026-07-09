@@ -8,7 +8,7 @@ export const addToCardSlice = createSlice({
   reducers: {
     addtocard: (state,action) => {
 
-      let item = state.value.find(item=>item.title==action.payload.title)
+      let item = state.value.find((item)=>item.title==action.payload.title)
 
 
         if(item){
@@ -18,9 +18,20 @@ export const addToCardSlice = createSlice({
         }
 
     },
+    increment: (state,action) => {
+      state.value.map((item)=>{
+        if(item.title==action.payload.title){
+          item.quantity+=1
+        }
+      })
+
+    },
+    decrement: (state,action) => {
+
+    }
   },
 })
 
-export const { addtocard } = addToCardSlice.actions
+export const { addtocard,increment,decrement } = addToCardSlice.actions
 
 export default addToCardSlice.reducer

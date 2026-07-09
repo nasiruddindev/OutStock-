@@ -1,12 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from '../components/Container'
 import Pera from '../components/Pera'
 import Flex from '../components/Flex'
 import Button from '../components/Button'
 import Input from '../components/Input'
 import Image from '../components/Image'
+import { useSelector } from 'react-redux'
 
 const Cart = () => {
+
+  let [subTotal,setSubTotal] = useState()
+
+
+  let data = useSelector((state)=>state.cart.value)
+
+  useEffect(()=>{
+    let subTotal=0
+    data.map((item,index)=>{
+      subTotal+=item.price*item.quantity
+    })
+    setSubTotal(subTotal)
+  },[])
+
+
   return (
     <section>
       <Container>
@@ -40,34 +56,38 @@ const Cart = () => {
         </Flex>
 
         <div className="flex flex-col gap-6">
-          <Flex className="px-3 py-5 shadow-2xl rounded items-center">
-            <div className="w-1/4">
+          {
+            data.map((item,index)=>(
+              <Flex className="px-3 py-5 shadow-2xl rounded items-center">
+            <div key={index} className="w-1/4">
               <Flex className="items-center gap-4">
-                <Image src="" className="w=14 h-14" />
+                <Image src={item.image} className="w=14 h-14" />
                 <p className="text-base font-normal font-pop text-black">
-                  title
+                  {item.title}
                 </p>
               </Flex>
             </div>
 
             <div className="w-1/4 text-center">
-              <p className="text-base text-black font-pop font-normal">price</p>
+              <p className="text-base text-black font-pop font-normal">$ {item.price}</p>
             </div>
 
             <div className="w-1/4">
               <li className="w-1/3 h-10 mx-auto border border-black/40 flex justify-between px-2 rounded-md">
                 <button className="cursor-pointer">-</button>
 
-                <button>9</button>
+                <button>{item.quantity}</button>
 
                 <button className="cursor-pointer">+</button>
               </li>
             </div>
 
             <div className="w-1/4 text-end">
-              <p className="text-base text-black font-pop font-normal">88</p>
+              <p className="text-base text-black font-pop font-normal">$ {item.quantity*item.price}</p>
             </div>
           </Flex>
+            ))
+          }
         </div>
 
         <Flex className="mt-6 justify-between">
@@ -96,7 +116,7 @@ const Cart = () => {
                 SubTotal
               </p>
 
-              <p className="text-base text-black font-pop font-normal">77</p>
+              <p className="text-base text-black font-pop font-normal">$ {subTotal}</p>
             </div>
 
             <div className="flex items-center justify-between border-b border-black/40 py-4">
@@ -104,7 +124,10 @@ const Cart = () => {
                 Shipping
               </p>
 
-              <p className="text-base text-black font-pop font-normal">5$</p>
+              {
+                data.lenght?
+                <p className="text-base text-black font-pop font-normal">$ 5</p>:<p className="text-base text-black font-pop font-normal">$ 0</p>
+              }
             </div>
 
             <div className="flex items-center justify-between  pt-4">
@@ -112,7 +135,11 @@ const Cart = () => {
                 Total:
               </p>
 
-              <p className="text-base text-black font-pop font-normal">9</p>
+              {
+                data.length?
+                <p className="text-base text-black font-pop font-normal">$ {(subTotal+5)}</p>:
+                <p className="text-base text-black font-pop font-normal">0</p>
+              }
             </div>
 
             <div className="mt-4 text-center">
@@ -126,3 +153,7 @@ const Cart = () => {
 }
 
 export default Cart
+
+
+
+

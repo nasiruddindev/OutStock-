@@ -178,7 +178,8 @@ const ProductDetailsPage = () => {
               key={index}
               src={item.thumbnail}
               title={item.title}
-              salePrice={`$ ${item.price}`}
+              salePrice={item.price}
+              rawPrice={item.price}
             />
           ))}
         </Flex>

@@ -10,7 +10,8 @@ import { GiHamburgerMenu } from 'react-icons/gi'
 import { RxCross2 } from 'react-icons/rx'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { increment } from '../slices/addToCardSlice'
 
 const Navbar = () => {
   let [allData, setAllData] = useState([])
@@ -43,6 +44,14 @@ const Navbar = () => {
   // add to cart functionallity start
 
   let data = useSelector((state)=>state.cart.value)
+  let dispatch = useDispatch()
+
+  let handleIncrement = (item)=>{
+    dispatch(increment(item))
+  }
+  let handleDecrement = (item)=>{
+    dispatch(increment(item))
+  }
 
   // add to cart functionallity end
 
@@ -150,18 +159,18 @@ const Navbar = () => {
 
                   {
                     data.map((item,index)=>(
-                      <ul className="flex items-center pt-5 ">
-                    <li className="w-1/5 text-center">{item.title.substring(0,15)}</li>
+                      <ul key={index} className="flex items-center pt-5 ">
+                    <li  className="w-1/5 text-center">{item.title.substring(0,15)}</li>
 
                     <li className="w-1/5">
                       <Image className="w-full" src={item.image} />
                     </li>
                     <li className="w-1/5 h-10  border border-black/40 flex justify-between px-2 rounded-md">
-                      <button className="cursor-pointer">-</button>
+                      <button onClick={()=>handleDecrement(item)} className="cursor-pointer">-</button>
 
                       <button>{item.quantity}</button>
 
-                      <button className="cursor-pointer">+</button>
+                      <button onClick={()=>handleIncrement(item)} className="cursor-pointer">+</button>
                     </li>
                     <li className="w-1/5 text-end">{item.price}</li>
                     <li className="w-1/5 text-center">88$</li>
@@ -174,10 +183,18 @@ const Navbar = () => {
                       Total : 0$
                     </p>
 
-                    <div className="flex justify-evenly gap-2 mt-10">
-                      <Button className="w-full" text="Check Out" />
+                    <div
 
+                    onClick={()=>setCartOpen(!cartOpen)}
+
+                    className="flex justify-evenly gap-2 mt-10">
+                      <Link to="/checkout">
+                      <Button className="w-full" text="Check Out" />
+                      </Link>
+
+                      <Link to="/cart">
                       <Button className="w-full" text="Cart" />
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -195,14 +212,18 @@ const Navbar = () => {
                     My Account
                   </h3>
 
-                  <ul className="space-y-4">
+                  <ul className="flex flex-col gap-y-4">
+                    <Link to="/login">
                     <li className="text-2xl text-gray-700 font-pop hover:text-orange-500 transition cursor-pointer">
                       Sign in
                     </li>
+                    </Link>
 
+                    <Link to="/account">
                     <li className="text-2xl text-gray-700 font-pop hover:text-orange-500 transition cursor-pointer">
                       Register
                     </li>
+                    </Link>
                   </ul>
 
                   <h4 className="mt-6 mb-4 text-2xl font-semibold text-gray-70 font-pop">

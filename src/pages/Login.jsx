@@ -5,6 +5,7 @@ import Pera from '../components/Pera'
 import Flex from '../components/Flex'
 import Input from '../components/Input'
 import Button from '../components/Button'
+import { Link } from 'react-router-dom'
 
 const Login = () => {
   return (
@@ -51,7 +52,11 @@ const Login = () => {
                 <Pera text="Track new orders"/>
                 <Pera text="Save items to your Wish list"/>
               </Flex>
-              <Button text="CREATE ACCOUNT" className="mt-12"/>
+
+              <Link to="/account">
+              <div><Button text="CREATE ACCOUNT" className="mt-12"/></div>
+              </Link>
+
             </div>
           </Flex>
 
