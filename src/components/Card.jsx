@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Image from './Image'
+import ProductModal from './ProductModal'
 import Pera from './Pera'
 import { FaPlus, FaStar } from 'react-icons/fa'
 import { GoPlus } from 'react-icons/go'
@@ -12,6 +13,7 @@ import { breadCrumb } from '../slices/breadCrumbSlice'
 
 const Card = ({ id, src, title, salePrice, regularPrice }) => {
   let dispatch = useDispatch()
+  const [isModalOpen, setIsModalOpen] = useState(false)
   let addCartItem = () => {
     dispatch(
       addtocard({
@@ -23,7 +25,7 @@ const Card = ({ id, src, title, salePrice, regularPrice }) => {
     )
   }
 
-  let hadnldeBreadCrumb = (text)=>{
+  let handleBreadCrumb = (text)=>{
     dispatch(breadCrumb(text))
   }
 
@@ -40,7 +42,13 @@ const Card = ({ id, src, title, salePrice, regularPrice }) => {
           <p className="text-white text-sm p-1">SALE</p>
         </div>
 
-        <div className="absolute -right-10 bottom-18 w-12 h-12 bg-white shadow-xl flex justify-center items-center opacity-0 group-hover:opacity-100 group-hover:right-4 overflow-hidden duration-500">
+        <div
+          onClick={(e) => {
+            e.stopPropagation()
+            setIsModalOpen(true)
+          }}
+          className="absolute -right-10 bottom-18 w-12 h-12 bg-white shadow-xl flex justify-center items-center opacity-0 group-hover:opacity-100 group-hover:right-4 overflow-hidden duration-500 cursor-pointer"
+        >
           <CiSearch className="text-black text-2xl" />
         </div>
 
@@ -50,7 +58,7 @@ const Card = ({ id, src, title, salePrice, regularPrice }) => {
       </div>
 
       <div className={`relative w-full h-25 p-3`}>
-        <Link onClick={()=>handleBreadCrumb("productdetails")} to={`productdetails/${id}`}>
+        <Link onClick={()=>handleBreadCrumb("productdetails")} to={`/productdetails/${id}`}>
           <Pera text={title} className="pt-1 font-semibold!" />
         </Link>
         <ul className={`flex pt-2 `}>
@@ -79,6 +87,9 @@ const Card = ({ id, src, title, salePrice, regularPrice }) => {
           </p>
         </div>
       </div>
+      {isModalOpen && (
+        <ProductModal id={id} onClose={() => setIsModalOpen(false)} />
+      )}
     </div>
   )
 }

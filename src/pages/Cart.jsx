@@ -7,6 +7,7 @@ import Input from '../components/Input'
 import Image from '../components/Image'
 import { useDispatch, useSelector } from 'react-redux'
 import { decrement, increment } from '../slices/addToCardSlice'
+import { Link } from 'react-router-dom'
 
 const Cart = () => {
 
@@ -135,7 +136,7 @@ const Cart = () => {
               </p>
 
               {
-                data.lenght?
+                data.length ?
                 <p className="text-base text-black font-pop font-normal">$ 5</p>:<p className="text-base text-black font-pop font-normal">$ 0</p>
               }
             </div>
@@ -153,7 +154,9 @@ const Cart = () => {
             </div>
 
             <div className="mt-4 text-center">
+              <Link to="/checkout">
               <Button text="Process to Checkout" />
+              </Link>
             </div>
           </div>
         </Flex>
