@@ -6,21 +6,31 @@ import { HiOutlinePhone } from 'react-icons/hi2'
 import { MdOutlineEmail } from 'react-icons/md'
 import Input from '../components/Input'
 import Button from '../components/Button'
+import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const Contact = () => {
+
+
+   let breadCrumb1 = useSelector((state)=>state.breadCrumb.currentValue)
+   let breadCrumb2 = useSelector((state)=>state.breadCrumb.previousValue)
+
+
+
   return (
     <section className='py-20'>
       <Container>
-        <div className="pl-5 md:pl-0">
-            <ul className="flex  items-center flex-wrap gap-2 pb-10">
-          <Pera text="gfasf" className={`text-black/50!`}/>
-          /
-          <Pera text="gfasf" className={`text-black/50!`}/>
-          /
-          <Pera text="gfasf" className={`text-black/50!`}/>
-
+        <div className="pb-10 pl-5 md:pl-0">
+          <ul className="flex items-center flex-wrap gap-2 text-black/50 text-sm font-pop">
+            <Link to="/" className="hover:text-orange-400 transition-colors">Home</Link>
+            <span>/</span>
+            {
+              breadCrumb2=="contact"? "":<div><Link to={`/${breadCrumb2}`}><span className="font-medium">{breadCrumb2}</span></Link>
+            <span>/</span></div>
+            }
+            <span className="text-black font-medium">{breadCrumb1}</span>
           </ul>
-          </div>
+        </div>
 
           <Flex className="mt-10 md:mt-15 flex-col md:flex-row gap-y-5 md:gap-y-0 items-center">
             <div className="md:w-4/12">

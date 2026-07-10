@@ -12,6 +12,9 @@ import Button from '../components/Button'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { decrement, increment } from '../slices/addToCardSlice'
+import Us from '../assets/us.png'
+import Au from '../assets/au.png'
+import { breadCrumb } from '../slices/breadCrumbSlice'
 
 const Navbar = () => {
   let [allData, setAllData] = useState([])
@@ -65,6 +68,15 @@ const Navbar = () => {
 
   // add to cart functionallity end
 
+  // BreadCrumb Function start
+
+
+  let handleBreadCrumb = (text)=>{
+    dispatch(breadCrumb(text))
+  }
+  // BreadCrumb Function end
+
+
   return (
     <nav className="bg-back py-7">
       <Container>
@@ -77,11 +89,15 @@ const Navbar = () => {
               <Link to="/">
                 <ListItem text="Home" />
               </Link>
-              <ListItem text="About" />
-              <Link to="contact">
+              <Link onClick={()=>handleBreadCrumb("about")} to="about">
+                <ListItem text="About" />
+              </Link>
+              <Link onClick={()=>handleBreadCrumb("contact")} to="contact">
                 <ListItem text="Contact" />
               </Link>
-              <ListItem text="Blog" />
+              <Link onClick={()=>handleBreadCrumb("blog")} to="contact">
+                <ListItem text="Blog" />
+              </Link>
             </ul>
           </div>
 
@@ -149,7 +165,7 @@ const Navbar = () => {
                   Cart
                 </p>
                 {
-                  data.length>1 &&
+                  data.length> 0 &&
                   <div className='absolute -top-3 -right-3 h-5 w-5 rounded-full bg-yellow-400 flex justify-center items-center'>
                   <p className="text-black text-sm font-pop font-normal">
                   {data.length}
@@ -196,7 +212,9 @@ const Navbar = () => {
                     ))
                   }
 
-                  <div className="py-5  border-t mt-10">
+                  {
+                    data.length>0?
+                    <div className="py-5  border-t mt-10">
                     <p className="text-2xl px-2 font-pop font-medium text-end ">
                       Total : ${total.toFixed(2)}
                     </p>
@@ -214,7 +232,10 @@ const Navbar = () => {
                       <Button className="w-full" text="Cart" />
                       </Link>
                     </div>
-                  </div>
+                  </div>:<p className="text-4xl px-2 font-pop font-medium text-center mt-10">
+                    Cart Empty
+                    </p>
+                  }
                 </div>
               )}
 
@@ -225,7 +246,7 @@ const Navbar = () => {
               </div>
 
               {accountOpen && (
-                <div className="absolute top-full right-0 mt-3 w-64 bg-white border border-gray-200 shadow-lg p-5 z-50">
+                <div onClick={()=>setAccountOpen(!accountOpen)} className="absolute top-full right-0 mt-3 w-64 bg-white border border-gray-200 shadow-lg p-5 z-50">
                   <h3 className="text-3xl font-semibold text-gray-700 mb-5">
                     My Account
                   </h3>
@@ -237,7 +258,7 @@ const Navbar = () => {
                     </li>
                     </Link>
 
-                    <Link to="/account">
+                    <Link to="/signup">
                     <li className="text-2xl text-gray-700 font-pop hover:text-orange-500 transition cursor-pointer">
                       Register
                     </li>
@@ -252,7 +273,7 @@ const Navbar = () => {
                     <li>
                       <button className="flex items-center gap-3 hover:text-orange-500 transition cursor-pointer">
                         <Image
-                          src="https://flagcdn.com/w40/us.png"
+                          src={Us}
                           alt="USA"
                           className="w-6 h-4 object-cover"
                         />
@@ -263,7 +284,7 @@ const Navbar = () => {
                     <li>
                       <button className="flex items-center gap-3 hover:text-orange-500 transition cursor-pointer">
                         <Image
-                          src="https://flagcdn.com/w40/au.png"
+                          src={Au}
                           alt="Australia"
                           className="w-6 h-4 object-cover"
                         />

@@ -7,7 +7,7 @@ import Flex from '../components/Flex'
 import Button from '../components/Button'
 import { CiHeart } from 'react-icons/ci'
 import Image from '../components/Image'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Pera from '../components/Pera'
 import ProductDetailsImg from '../components/ProductDetailsImg'
 
@@ -39,16 +39,27 @@ const ProductDetailsPage = () => {
 
   const sizes = ['XS', 'S', 'M', 'L', 'XL']
 
+
+
+
+
   return (
-    <section className="bg-white">
+    <section className="bg-white py-20">
       <Container>
-        <ul className="flex flex-wrap gap-2 py-10">
-          <Pera text="gfasf" className={`text-black/50!`} />
-          /
-          <Pera text="gfasf" className={`text-black/50!`} />
-          /
-          <Pera text="gfasf" className={`text-black/50!`} />
-        </ul>
+        <div className="pb-10 pl-5 md:pl-0">
+          <ul className="flex items-center flex-wrap gap-2 text-black/50 text-sm font-pop">
+            <Link to="/" className="hover:text-orange-400 transition-colors">Home</Link>
+
+            {
+              allData.category&&<div><span>/</span>
+            <span className="font-medium">{allData.category}</span></div>
+            }
+            {
+              allData.title&& <div><span>/</span>
+            <span className="text-black font-medium">{allData.title}</span></div>
+            }
+          </ul>
+        </div>
 
         <Flex className="flex-col gap-y-10 lg:gap-y-0 lg:flex-row">
           <div className="hidden lg:flex lg:w-2/12  flex-col gap-y-4">
@@ -175,11 +186,11 @@ const ProductDetailsPage = () => {
         <Flex className=" justify-between pb-10">
           {products.slice(20, 24).map((item, index) => (
             <Card
+              id={item.id}
               key={index}
               src={item.thumbnail}
               title={item.title}
               salePrice={item.price}
-              rawPrice={item.price}
             />
           ))}
         </Flex>

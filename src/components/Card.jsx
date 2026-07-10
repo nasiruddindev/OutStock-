@@ -8,6 +8,7 @@ import { HiArrowPath } from 'react-icons/hi2'
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { addtocard } from '../slices/addToCardSlice'
+import { breadCrumb } from '../slices/breadCrumbSlice'
 
 const Card = ({ id, src, title, salePrice, regularPrice }) => {
   let dispatch = useDispatch()
@@ -22,12 +23,16 @@ const Card = ({ id, src, title, salePrice, regularPrice }) => {
     )
   }
 
+  let hadnldeBreadCrumb = (text)=>{
+    dispatch(breadCrumb(text))
+  }
+
   return (
     <div className={`w-69.25 h-112.5 group cursor-pointer`}>
       <div
         className={`relative w-full h-87.25 flex justify-center items-center bg-back`}
       >
-        <Link to={`/productdetails/${id}`}>
+        <Link onClick={()=>handleBreadCrumb("productdetails")} to={`/productdetails/${id}`}>
           <Image src={src} />
         </Link>
 
@@ -45,8 +50,8 @@ const Card = ({ id, src, title, salePrice, regularPrice }) => {
       </div>
 
       <div className={`relative w-full h-25 p-3`}>
-        <Link to={`productdetails/${id}`}>
-          <Pera text={title} className="pt-1" />
+        <Link onClick={()=>handleBreadCrumb("productdetails")} to={`productdetails/${id}`}>
+          <Pera text={title} className="pt-1 font-semibold!" />
         </Link>
         <ul className={`flex pt-2 `}>
           <li> <FaStar /> </li>
