@@ -8,6 +8,7 @@ import Image from '../components/Image'
 import Input from '../components/Input'
 import Button from '../components/Button'
 import { FcGoogle } from 'react-icons/fc'
+import { Link } from 'react-router-dom'
 
 const Account = () => {
   return (
@@ -40,7 +41,9 @@ const Account = () => {
                 <FcGoogle className='text-2xl'/>
                 <button className=' text-base font-pop font-normal text-black '> Sign up with Google</button>
               </div>
-              <p className='font-pop text-base font-normal text-[#00000070]'>Already have account? <span className='font-medium text-black underline pl-2 cursor-pointer'>Log in</span></p>
+              <p className='font-pop text-base font-normal text-[#00000070]'>Already have account? <Link to="/login">
+              <span className='font-medium text-black underline pl-2 cursor-pointer'>Log in</span>
+              </Link></p>
             </div>
             </div>
           </Flex>

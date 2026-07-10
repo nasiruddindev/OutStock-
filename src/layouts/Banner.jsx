@@ -12,8 +12,14 @@ const Banner = () => {
   return (
     <section>
       <Container>
-        <div className="bg-white shadow-xl p-7.5">
-          <Image src={BannerImage}  />
+        <div className=" bg-white shadow-xl p-7.5 w-full">
+          <div className='relative'>
+            <Image src={BannerImage}  />
+          <div className="absolute bottom-20 left-8 text-black">
+            <p className="text-2xl font-pop uppercase tracking-widest text-orange-400 font-semibold mb-1">Think Different | Do Otherwise</p>
+            <h3 className="text-xl font-pop font-medium">Acme Widgets & Designs</h3>
+          </div>
+          </div>
         </div>
 
         <Flex className="bg-white shadow-xl justify-between px-7.5 pb-12.5">

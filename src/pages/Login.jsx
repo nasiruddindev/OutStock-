@@ -53,7 +53,7 @@ const Login = () => {
                 <Pera text="Save items to your Wish list"/>
               </Flex>
 
-              <Link to="/account">
+              <Link to="/signup">
               <div><Button text="CREATE ACCOUNT" className="mt-12"/></div>
               </Link>
 

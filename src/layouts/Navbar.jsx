@@ -82,7 +82,7 @@ const Navbar = () => {
       <Container>
         <Flex className="items-center justify-between">
           <div className="w-3/12">
-            <Image src={Logo} alt="Logo" />
+            <Link to="/"><Image src={Logo} alt="Logo" /></Link>
           </div>
           <div className="w-5/12 ">
             <ul className="flex items-center justify-center gap-15">
@@ -95,8 +95,8 @@ const Navbar = () => {
               <Link onClick={()=>handleBreadCrumb("contact")} to="contact">
                 <ListItem text="Contact" />
               </Link>
-              <Link onClick={()=>handleBreadCrumb("blog")} to="contact">
-                <ListItem text="Blog" />
+              <Link onClick={()=>handleBreadCrumb("blog")} to="signup">
+                <ListItem text="Sign Up" />
               </Link>
             </ul>
           </div>
