@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Button = ({text,className}) => {
+const Button = ({text,className,...rest}) => {
   return (
-    <button className={`bg-[#454545] text-white px-10 py-3 rounded  hover:bg-[#535353] duration-300 cursor-pointer ${className}`}>{text}</button>
+    <button {...rest} className={`bg-[#454545] text-white px-10 py-3 rounded  hover:bg-[#535353] duration-300 cursor-pointer ${className}`}>{text}</button>
   )
 }
 

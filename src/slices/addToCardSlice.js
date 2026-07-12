@@ -12,7 +12,7 @@ export const addToCardSlice = createSlice({
 
 
         if(item){
-          item.quantity+=1
+          item.quantity+=action.payload.quantity || 1
         }else{
           state.value.push(action.payload)
         }

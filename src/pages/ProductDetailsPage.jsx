@@ -10,6 +10,8 @@ import Image from '../components/Image'
 import { Link, useParams } from 'react-router-dom'
 import Pera from '../components/Pera'
 import ProductDetailsImg from '../components/ProductDetailsImg'
+import { useDispatch } from 'react-redux'
+import { addtocard } from '../slices/addToCardSlice'
 
 const ProductDetailsPage = () => {
   // Related Item Show part start
@@ -38,6 +40,30 @@ const ProductDetailsPage = () => {
   // Proudcts details id verify part end
 
   const sizes = ['XS', 'S', 'M', 'L', 'XL']
+
+
+
+  let dispatch =  useDispatch()
+  const [quantity, setQuantity] = useState(1)
+
+  let handleQuantityIncrement = ()=>{
+    setQuantity((prev) => prev + 1)
+  }
+
+  let handleQuantityDecrement = ()=>{
+    setQuantity((prev) => (prev > 1 ? prev - 1 : 1))
+  }
+
+  let handleAddToCart = ()=>{
+    dispatch(
+      addtocard({
+        title: allData.title,
+        image: allData.thumbnail,
+        price: allData.price,
+        quantity: quantity,
+      })
+    )
+  }
 
 
 
@@ -157,21 +183,29 @@ const ProductDetailsPage = () => {
 
             <Flex className="items-center gap-x-3 lg:gap-x-0 lg:justify-between">
               <div className="flex justify-evenly items-center border border-black/50 w-39.75 rounded">
-                <button className="w-1/3 text-2xl text-center border-r px-2 py-1.5 cursor-pointer">
+                <button
+                  onClick={handleQuantityDecrement}
+                  className="w-1/3 text-2xl text-center border-r px-2 py-1.5 cursor-pointer"
+                >
                   -
                 </button>
 
                 <button className="w-1/3 text-2xl text-center border-r px-2 py-1.5 cursor-pointer">
-                  1
+                  {quantity}
                 </button>
 
-                <button className="w-1/3 text-2xl text-center  px-2 py-1.5 cursor-pointer">
+                <button
+                  onClick={handleQuantityIncrement}
+                  className="w-1/3 text-2xl text-center  px-2 py-1.5 cursor-pointer"
+                >
                   +
                 </button>
               </div>
 
               <div>
-                <Button className={`py-2.5!`} text="Buy Now" />
+                <Link to ="/checkout">
+                <Button onClick={handleAddToCart} className={`py-2.5!`} text="Buy Now" />
+                </Link>
               </div>
 
               <div className="w-10 h-10 border border-black/50 rounded flex justify-center items-center">

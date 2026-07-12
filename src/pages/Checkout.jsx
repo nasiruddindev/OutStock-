@@ -13,10 +13,8 @@ import { useSelector } from 'react-redux'
 
 const Checkout = () => {
 
-
-  let [subTotal,setSubTotal] = useState("")
-
-
+  let shipping = 5;
+  let [subTotal, setSubTotal] = useState('')
 
   const billingFields = [
     'First Name',
@@ -28,17 +26,15 @@ const Checkout = () => {
     'Email Address',
   ]
 
-  let data = useSelector((state)=>state.cart.value)
+  let data = useSelector((state) => state.cart.value)
 
-
-  useEffect(()=>{
+  useEffect(() => {
     let subTotal = 0
-    data.map((item)=>{
-      subTotal+=item.quantity+item.price
+    data.map((item) => {
+      subTotal += item.quantity * item.price
     })
     setSubTotal(subTotal)
-  },[])
-
+  }, [data])
 
   return (
     <section className="pb-35">
@@ -67,7 +63,6 @@ const Checkout = () => {
         <Title text="Billing Details" className={`font-medium! pb-12`} />
 
         <Flex className="flex-col md:flex-row">
-
           <div className="md:w-1/2 flex flex-col">
             {billingFields.map((field, index) => (
               <div key={index} className="mx-auto md:mx-0">
@@ -80,30 +75,30 @@ const Checkout = () => {
           </div>
 
           <div className="md:w-1/2 p-3 lg:p-0">
-
-           {
-            data.map(item=>(
-                <div className="flex items-center justify-between mb-5">
-              <div className="flex gap-x-4 items-center">
-                <div>
-                  <Image src={item.image} className="w-13 h-13" />
+            {data.map((item,index) => (
+                <div key={index} className="flex items-center justify-between mb-5">
+                  <div className="flex gap-x-4 items-center">
+                    <div>
+                      <Image src={item.image} className="w-13 h-13" />
+                    </div>
+                    <p className="text-base font-normal font-pop text-black">
+                      {item.title}
+                    </p>
+                  </div>
+                  <p className="text-base text-black font-pop font-normal">
+                    {item.price} * {item.quantity}
+                  </p>
                 </div>
-                <p className="text-base font-normal font-pop text-black">
-                 {item.title}
-                </p>
-              </div>
-              <p className="text-base text-black font-pop font-normal">{item.price}</p>
-            </div>
-
-            ))
-           }
+            ))}
 
             <div className="flex items-center justify-between border-b border-black/40 pb-4">
               <p className="text-base font-normal font-pop text-black">
                 Subtotal
               </p>
 
-              <p className="text-base text-black font-pop font-normal">{subTotal}</p>
+              <p className="text-base text-black font-pop font-normal">
+                {subTotal}$
+              </p>
             </div>
 
             <div className="flex items-center justify-between border-b border-black/40 py-4">
@@ -111,10 +106,11 @@ const Checkout = () => {
                 Shipping
               </p>
 
-              {
-                data.length < 1 ? 0 : <p className="text-base text-black font-pop font-normal">5$</p>
-
-              }
+              {data.length < 1 ? (
+                0
+              ) : (
+                <p className="text-base text-black font-pop font-normal">5$</p>
+              )}
             </div>
 
             <div className="flex items-center justify-between  pt-4">
@@ -122,9 +118,13 @@ const Checkout = () => {
                 Total:
               </p>
 
-              {
-                data.length < 1 ? 0 : <p className="text-base text-black font-pop font-normal">{subTotal+5}</p>
-              }
+              {data.length < 1 ? (
+                0
+              ) : (
+                <p className="text-base text-black font-pop font-normal">
+                  {subTotal + shipping}
+                </p>
+              )}
             </div>
 
             <div className="flex justify-between pt-8">
@@ -147,9 +147,9 @@ const Checkout = () => {
                 placeholder="Coupon Code"
                 className="border border-black/50 rounded w-1/2 lg:w-full"
               />
-              <Button text="Apply Coupon" className="w-1/2 lg:w-full"/>
+              <Button text="Apply Coupon" className="w-1/2 lg:w-full" />
             </div>
-              <Button text="Place Order" className="w-full"/>
+            <Button text="Place Order" className="w-full" />
           </div>
         </Flex>
       </Container>

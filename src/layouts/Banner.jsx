@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from '../components/Container'
 import Image from '../components/Image'
 import BannerImage from '../assets/banner.png'
@@ -9,13 +9,26 @@ import BannerCardImage2 from '../assets/bannerCard2.png'
 import BannerCardImage3 from '../assets/bannerCard3.png'
 
 const Banner = () => {
+
+  let [showText,setShowText] = useState(false)
+
+
+  useEffect(()=>{
+    setShowText(true)
+  },[])
+
+
   return (
     <section>
       <Container>
-        <div className=" bg-white shadow-xl p-7.5 w-full">
+        <div className="group bg-white shadow-xl p-7.5 w-full">
           <div className='relative'>
             <Image src={BannerImage}  />
-          <div className="absolute bottom-20 left-8 text-black">
+          <div className={`absolute bottom-110 left-8 transition-all duration-2000 text-black ${
+            showText
+            ?"opacity-100 translate-y-100"
+            :"opacity-0 translate-y-0"
+          }`}>
             <p className="text-2xl font-pop uppercase tracking-widest text-orange-400 font-semibold mb-1">Think Different | Do Otherwise</p>
             <h3 className="text-xl font-pop font-medium">Acme Widgets & Designs</h3>
           </div>
