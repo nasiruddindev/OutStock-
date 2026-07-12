@@ -11,10 +11,12 @@ import { RxCross2 } from 'react-icons/rx'
 import Button from '../components/Button'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { decrement, increment } from '../slices/addToCardSlice'
+import { decrement, increment, removeItem } from '../slices/addToCardSlice'
 import Us from '../assets/us.png'
 import Au from '../assets/au.png'
 import { breadCrumb } from '../slices/breadCrumbSlice'
+import { RiDeleteBinLine } from 'react-icons/ri'
+import { DiPerl } from 'react-icons/di'
 
 const Navbar = () => {
   let [allData, setAllData] = useState([])
@@ -46,56 +48,58 @@ const Navbar = () => {
 
   // add to cart functionallity start
 
-  let data = useSelector((state)=>state.cart.value)
+  let data = useSelector((state) => state.cart.value)
   let dispatch = useDispatch()
 
-  let handleIncrement = (item)=>{
+  let handleIncrement = (item) => {
     dispatch(increment(item))
   }
-  let handleDecrement = (item)=>{
+  let handleDecrement = (item) => {
     dispatch(decrement(item))
   }
+  let handleRemoveItem = (item) =>{
+    dispatch(removeItem(item))
+  }
+  let [total, setTotal] = useState()
 
-  let [total,setTotal] = useState()
-
-  useEffect(()=>{
-    let total=0
-    data.map((item)=>{
-      total+=item.price*item.quantity
+  useEffect(() => {
+    let total = 0
+    data.map((item) => {
+      total += item.price * item.quantity
     })
     setTotal(total)
-  },[data])
+  }, [data])
 
   // add to cart functionallity end
 
   // BreadCrumb Function start
 
-
-  let handleBreadCrumb = (text)=>{
+  let handleBreadCrumb = (text) => {
     dispatch(breadCrumb(text))
   }
   // BreadCrumb Function end
-
 
   return (
     <nav className="bg-back py-7">
       <Container>
         <Flex className="items-center justify-between">
           <div className="w-3/12">
-            <Link to="/"><Image src={Logo} alt="Logo" /></Link>
+            <Link to="/">
+              <Image src={Logo} alt="Logo" />
+            </Link>
           </div>
           <div className="w-5/12 ">
             <ul className="flex items-center justify-center gap-15">
               <Link to="/">
                 <ListItem text="Home" />
               </Link>
-              <Link onClick={()=>handleBreadCrumb("about")} to="about">
+              <Link onClick={() => handleBreadCrumb('about')} to="about">
                 <ListItem text="About" />
               </Link>
-              <Link onClick={()=>handleBreadCrumb("contact")} to="contact">
+              <Link onClick={() => handleBreadCrumb('contact')} to="contact">
                 <ListItem text="Contact" />
               </Link>
-              <Link onClick={()=>handleBreadCrumb("blog")} to="signup">
+              <Link onClick={() => handleBreadCrumb('blog')} to="signup">
                 <ListItem text="Sign Up" />
               </Link>
             </ul>
@@ -135,22 +139,25 @@ const Navbar = () => {
                 </div>
               )}
 
-              {search.length>0&&
+              {search.length > 0 && (
                 <div className="absolute top-18 left-0 w-full  bg-linear-to-r from-black/40 to-black/70 rounded p-5 z-10">
-                {search.map((item, index) => (
-                  <ul key={index}>
-                    <Link onClick={()=>{
-                      setInput(item.title)
-                      setSearch([])
-                    }} to={`productdetails/${item.id}`}>
-                    <li className="text-white text-xl font-semibold py-3">
-                      {item.title}
-                    </li>
-                    </Link>
-                  </ul>
-                ))}
-              </div>
-              }
+                  {search.map((item, index) => (
+                    <ul key={index}>
+                      <Link
+                        onClick={() => {
+                          setInput(item.title)
+                          setSearch([])
+                        }}
+                        to={`productdetails/${item.id}`}
+                      >
+                        <li className="text-white text-xl font-semibold py-3">
+                          {item.title}
+                        </li>
+                      </Link>
+                    </ul>
+                  ))}
+                </div>
+              )}
 
               {/* Search Functionality End */}
 
@@ -164,79 +171,163 @@ const Navbar = () => {
                 <p className="text-black text-base font-pop font-normal">
                   Cart
                 </p>
-                {
-                  data.length> 0 &&
-                  <div className='absolute -top-3 -right-3 h-5 w-5 rounded-full bg-yellow-400 flex justify-center items-center'>
-                  <p className="text-black text-sm font-pop font-normal">
-                  {data.length}
-                </p>
-                </div>
-                }
+                {data.length > 0 && (
+                  <div className="absolute -top-3 -right-3 h-5 w-5 rounded-full bg-yellow-400 flex justify-center items-center">
+                    <p className="text-black text-sm font-pop font-normal">
+                      {data.length}
+                    </p>
+                  </div>
+                )}
               </div>
 
               {cartOpen && (
-                <div className="overflow-y-scroll z-50 absolute top-13 right-0 w-full bg-back px-4 py-6">
-                  <div className="pb-5 cursor-pointer">
-                    <RxCross2
-                      onClick={() => setCartOpen(false)}
-                      className="text-3xl text-black"
-                    />
+                <div className="absolute top-3 left-0 z-50 w-full my-10 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden font-pop">
+                  {/* 1. Header Section */}
+                  <header className="bg-linear-to-r from-sky-100 via-purple-100 to-pink-100 p-6 flex items-center justify-between">
+                    <div>
+                      <h2 className="text-xl font-bold pb-1 text-slate-800 tracking-tight">
+                        Your Cart
+                      </h2>
+                      <p className="text-xs font-medium text-slate-500">
+                        {`${data.length} items in your cart`}
+                      </p>
+                    </div>
+
+                    <button className="w-9 h-9 rounded-full bg-white/60 hover:bg-white cursor-pointer  flex items-center justify-center transition-colors shadow-sm">
+                      <RxCross2
+                        onClick={() => setCartOpen(false)}
+                        className="text-3xl text-black/60"
+                      />
+                    </button>
+                  </header>
+
+                  {/* 2. Scrollable Cart Items List */}
+                  <div className="max-h-125 overflow-y-auto divide-y divide-slate-100 px-3 py-2 custom-scrollbar">
+                    {/* Item 1 */}
+                    {
+                      data.map((item,index)=>(
+                        <div className="py-5 flex items-center gap-4">
+                      <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-100 shrink-0 overflow-hidden p-1">
+                        <Image src={item.image}/>
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-base font-bold text-slate-800 truncate">
+                         {item.title.substring(0,15)}
+                        </h3>
+                        <span className="text-sm font-semibold text-slate-900">
+                          ${item.price}
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col items-end gap-2">
+                        <div className="flex items-center gap-2">
+                          {/* Quantity Selector */}
+                          <div className="flex items-center bg-slate-100 rounded-xl px-2 py-1 cursor-pointer">
+                            <button onClick={()=>handleDecrement(item)} className="text-slate-500  px-1 font-medium text-base">
+                              -
+                            </button>
+                            <span className="text-base font-bold text-slate-800 px-2">
+                              {item.quantity}
+                            </span>
+                            <button onClick={()=>handleIncrement(item)} className="text-slate-500  px-1 font-medium text-base cursor-pointer">
+                              +
+                            </button>
+                          </div>
+
+                          {/* Trash Button */}
+                          <button onClick={()=>handleRemoveItem(item)} className="text-slate-600 text-xl cursor-pointer hover:text-rose-500 p-1 transition-colors">
+                            <RiDeleteBinLine />
+
+                          </button>
+                        </div>
+                        <p className="text-base text-slate-500 font-medium ">
+                          Subtotal:
+                          <span className="font-bold text-slate-700 pl-2">
+                            {(item.quantity*item.price.toFixed(2))}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                      ))
+                    }
                   </div>
 
-                  <ul className="flex  border-b pb-4 ">
-                    <li className="w-1/5 text-center">Product</li>
-                    <li className="w-1/5 text-center">Image</li>
-                    <li className="w-1/5 text-center">Quantity</li>
-                    <li className="w-1/5 text-center">Price</li>
-                    <li className="w-1/5 text-center">Total</li>
-                  </ul>
-
-                  {
-                    data.map((item,index)=>(
-                      <ul key={index} className="flex items-center pt-5 ">
-                    <li  className="w-1/5 text-center">{item.title.substring(0,15)}</li>
-
-                    <li className="w-1/5">
-                      <Image className="w-full" src={item.image} />
-                    </li>
-                    <li className="w-1/5 h-10  border border-black/40 flex justify-between px-2 rounded-md">
-                      <button onClick={()=>handleDecrement(item)} className="cursor-pointer">-</button>
-
-                      <button>{item.quantity}</button>
-
-                      <button onClick={()=>handleIncrement(item)} className="cursor-pointer">+</button>
-                    </li>
-                    <li className="w-1/5 text-end">{item.price}</li>
-                    <li className="w-1/5 text-center">${(item.price*item.quantity.toFixed(2))}</li>
-                  </ul>
-                    ))
-                  }
-
-                  {
-                    data.length>0?
-                    <div className="py-5  border-t mt-10">
-                    <p className="text-2xl px-2 font-pop font-medium text-end ">
-                      Total : ${total.toFixed(2)}
-                    </p>
-
-                    <div
-
-                    onClick={()=>setCartOpen(!cartOpen)}
-
-                    className="flex justify-evenly gap-2 mt-10">
-                      <Link to="/checkout">
-                      <Button className="w-full" text="Check Out" />
-                      </Link>
-
-                      <Link to="/cart">
-                      <Button className="w-full" text="Cart" />
-                      </Link>
+                  {/* 3. Footer Section (Modified Layout & Soft Light Aesthetic) */}
+                 {
+                  data.length>0? <footer className="py-6 px-2 bg-slate-50 border-t border-slate-100 flex flex-col gap-4">
+                    {/* Total Price Display */}
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-sm font-semibold text-slate-500 uppercase tracking-wider">
+                        Total
+                      </span>
+                      <span className="text-2xl font-black text-slate-900 tracking-tight">
+                        ${total.toFixed(2)}
+                      </span>
                     </div>
-                  </div>:<p className="text-4xl px-2 font-pop font-medium text-center mt-10">
-                    Cart Empty
-                    </p>
-                  }
+
+                    {/* Action Buttons arranged side-by-side */}
+                    <div className="flex justify-between mt-5">
+                      <button className="py-4 px-5 bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold text-base uppercase tracking-wider rounded-xl shadow-sm transition-all text-center">
+                        View Cart
+                      </button>
+
+                      <button className=" py-4 px-5 bg-linear-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold text-base uppercase rounded-xl shadow-md  transition-all text-center ">
+                        <span>Proceed to Checkout</span>
+                      </button>
+                    </div>
+                  </footer>:
+                  <p className='text-3xl font-pop text-black text-center py-6 font-semibold'>Your Cart is Empty</p>
+                 }
                 </div>
+
+
+                //   {
+                //     data.map((item,index)=>(
+                //       <ul key={index} className="flex items-center pt-5 ">
+                //     <li  className="w-1/5 text-center">{item.title.substring(0,15)}</li>
+
+                //     <li className="w-1/5">
+                //       <Image className="w-full" src={item.image} />
+                //     </li>
+                //     <li className="w-1/5 h-10  border border-black/40 flex justify-between px-2 rounded-md">
+                //       <button onClick={()=>handleDecrement(item)} className="cursor-pointer">-</button>
+
+                //       <button>{item.quantity}</button>
+
+                //       <button onClick={()=>handleIncrement(item)} className="cursor-pointer">+</button>
+                //     </li>
+                //     <li className="w-1/5 text-end">{item.price}</li>
+                //     <li className="w-1/5 text-center">${(item.price*item.quantity.toFixed(2))}</li>
+                //   </ul>
+                //     ))
+                //   }
+
+                //   {
+                //     data.length>0?
+                //     <div className="py-5  border-t mt-10">
+                //     <p className="text-2xl px-2 font-pop font-medium text-end ">
+                //       Total : ${total.toFixed(2)}
+                //     </p>
+
+                //     <div
+
+                //     onClick={()=>setCartOpen(!cartOpen)}
+
+                //     className="flex justify-evenly gap-2 mt-10">
+                //       <Link to="/checkout">
+                //       <Button className="w-full" text="Check Out" />
+                //       </Link>
+
+                //       <Link to="/cart">
+                //       <Button className="w-full" text="Cart" />
+                //       </Link>
+                //     </div>
+                //   </div>:<p className="text-4xl px-2 font-pop font-medium text-center mt-10">
+                //     Cart Empty
+                //     </p>
+                //   }
+                // </div>
               )}
 
               {/* Cart Functionality End */}
@@ -246,22 +337,25 @@ const Navbar = () => {
               </div>
 
               {accountOpen && (
-                <div onClick={()=>setAccountOpen(!accountOpen)} className="absolute top-full right-0 mt-3 w-64 bg-white border border-gray-200 shadow-lg p-5 z-50">
+                <div
+                  onClick={() => setAccountOpen(!accountOpen)}
+                  className="absolute top-full right-0 mt-3 w-64 bg-white border border-gray-200 shadow-lg p-5 z-50"
+                >
                   <h3 className="text-3xl font-semibold text-gray-700 mb-5">
                     My Account
                   </h3>
 
                   <ul className="flex flex-col gap-y-4">
                     <Link to="/login">
-                    <li className="text-2xl text-gray-700 font-pop hover:text-orange-500 transition cursor-pointer">
-                      Sign in
-                    </li>
+                      <li className="text-2xl text-gray-700 font-pop hover:text-orange-500 transition cursor-pointer">
+                        Sign in
+                      </li>
                     </Link>
 
                     <Link to="/signup">
-                    <li className="text-2xl text-gray-700 font-pop hover:text-orange-500 transition cursor-pointer">
-                      Register
-                    </li>
+                      <li className="text-2xl text-gray-700 font-pop hover:text-orange-500 transition cursor-pointer">
+                        Register
+                      </li>
                     </Link>
                   </ul>
 

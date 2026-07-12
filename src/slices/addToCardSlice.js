@@ -40,10 +40,18 @@ export const addToCardSlice = createSlice({
         })
         sessionStorage.setItem("cart", JSON.stringify(state.value))
 
+      },
+      removeItem: (state,action) => {
+        state.value.map((item,index)=>{
+          if(item.title==action.payload.title){
+            state.value.splice(index,1)
+          }
+        })
+        sessionStorage.setItem("cart", JSON.stringify(state.value))
     }
   },
 })
 
-export const { addtocard,increment,decrement } = addToCardSlice.actions
+export const { addtocard,increment,decrement,removeItem } = addToCardSlice.actions
 
 export default addToCardSlice.reducer
