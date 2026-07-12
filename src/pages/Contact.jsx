@@ -12,8 +12,8 @@ import { Link } from 'react-router-dom'
 const Contact = () => {
 
 
-   let breadCrumb1 = useSelector((state)=>state.breadCrumb.currentValue)
    let breadCrumb2 = useSelector((state)=>state.breadCrumb.previousValue)
+   let breadCrumb1 = useSelector((state)=>state.breadCrumb.currentValue)
 
 
 
@@ -25,8 +25,9 @@ const Contact = () => {
             <Link to="/" className="hover:text-orange-400 transition-colors">Home</Link>
             <span>/</span>
             {
-              breadCrumb2=="contact"? "":<div><Link to={`/${breadCrumb2}`}><span className="font-medium">{breadCrumb2}</span></Link>
-            <span>/</span></div>
+              breadCrumb2=="contact"? "":breadCrumb2&&<div><Link to={`/${breadCrumb2}`}><span className="font-medium">{breadCrumb2}</span></Link>
+              <span>/</span>
+            </div>
             }
             <span className="text-black font-medium">{breadCrumb1}</span>
           </ul>

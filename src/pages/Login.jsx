@@ -12,15 +12,8 @@ const Login = () => {
     <section>
       <Container>
 
-        <Title text="Login" className="pt-13 pb-5"/>
-        <ul className="flex justify-center items-center flex-wrap gap-2 pb-10">
-          <Pera text="gfasf" className={`text-black/50!`}/>
-          /
-          <Pera text="gfasf" className={`text-black/50!`}/>
-          /
-          <Pera text="gfasf" className={`text-black/50!`}/>
+        <Title text="Login" className="py-20"/>
 
-          </ul>
 
 
           <Flex className="pb-10 justify-between">

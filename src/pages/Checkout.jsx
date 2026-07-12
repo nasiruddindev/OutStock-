@@ -39,37 +39,24 @@ const Checkout = () => {
   return (
     <section className="pb-35">
       <Container>
-        <div className="py-20">
-          <ul className="flex flex-wrap gap-2">
-            <Link to="/">
-              <ListItem text="Account" />
-            </Link>
-            /
-            <Link to="/">
-              <ListItem text="My Account" />
-            </Link>
-            /
-            <Link to="/">
-              <ListItem text="Product" />
-            </Link>
-            /
-            <Link to="/">
-              <ListItem text="View Cart" />
-            </Link>
-            /
-            <ListItem text="CheckOut" />
-          </ul>
-        </div>
+        <div className="py-20 pl-5 md:pl-0">
+                  <ul className="flex items-center flex-wrap gap-2 text-black/50 text-sm font-pop">
+                    <Link to="/" className="hover:text-orange-400 transition-colors">Home</Link>
+                    <span>/</span>
+
+                    <span className="text-black font-medium">Checkout</span>
+                  </ul>
+                </div>
         <Title text="Billing Details" className={`font-medium! pb-12`} />
 
         <Flex className="flex-col md:flex-row">
-          <div className="md:w-1/2 flex flex-col">
+          <div className="w-8/12 mx-auto md:mx-0 md:w-1/2 flex flex-col">
             {billingFields.map((field, index) => (
               <div key={index} className="mx-auto md:mx-0">
                 <label className="font-pop font-normal text-base text-black/40 pb-2 block">
                   {field}
                 </label>
-                <Input className={`bg-back!  md:w-4/5  mb-8`} />
+                <Input className={`bg-back! w-75 sm:w-100  md:w-4/5  mb-8`} />
               </div>
             ))}
           </div>

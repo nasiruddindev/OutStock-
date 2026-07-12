@@ -13,7 +13,6 @@ import Contact from './pages/Contact'
 import Checkout from './pages/Checkout'
 import About from './pages/About'
 import SignUp from './pages/SignUp'
-import LightCartModal from './pages/LightCartModal'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,7 +24,6 @@ const router = createBrowserRouter(
       <Route path="checkout" element={<Checkout />}></Route>
       <Route path="contact" element={<Contact />}></Route>
       <Route path="about" element={<About />}></Route>
-      <Route path="test" element={<LightCartModal />}></Route>
       <Route path="productdetails/:id" element={<ProductDetailsPage />}></Route>
     </Route>
   )

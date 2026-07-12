@@ -25,7 +25,7 @@ const About = () => {
             <Link to="/" className="hover:text-orange-400 transition-colors">Home</Link>
             <span>/</span>
             {
-              breadCrumb2=="about"? "":<div><Link to={`/${breadCrumb2}`}><span className="font-medium">{breadCrumb2}</span></Link>
+              breadCrumb2=="about"? "":breadCrumb2&&<div><Link to={`/${breadCrumb2}`}><span className="font-medium">{breadCrumb2}</span></Link>
             <span>/</span></div>
             }
             <span className="text-black font-medium">{breadCrumb1}</span>

@@ -17,6 +17,7 @@ import Au from '../assets/au.png'
 import { breadCrumb } from '../slices/breadCrumbSlice'
 import { RiDeleteBinLine } from 'react-icons/ri'
 import { DiPerl } from 'react-icons/di'
+import { IoMdMenu } from 'react-icons/io'
 
 const Navbar = () => {
   let [allData, setAllData] = useState([])
@@ -77,29 +78,50 @@ const Navbar = () => {
   let handleBreadCrumb = (text) => {
     dispatch(breadCrumb(text))
   }
+
+  let handleBreadAbout = () => {
+    dispatch(breadCrumb("about"))
+    setResMenuOpen(!resMenuOpen)
+  }
+  let handleBreadContact = () => {
+    dispatch(breadCrumb("contact"))
+    setResMenuOpen(!resMenuOpen)
+  }
+  let handleBreadSignup = () => {
+    dispatch(breadCrumb("signup"))
+    setResMenuOpen(!resMenuOpen)
+  }
   // BreadCrumb Function end
 
+
+  // Responsive part start
+
+  let [resMenuOpen,setResMenuOpen] = useState(false)
+
   return (
-    <nav className="bg-back py-7">
+    <div>
+
+      {/* Big Screen Navbar */}
+      <nav className="hidden md:block bg-back py-7">
       <Container>
         <Flex className="items-center justify-between">
-          <div className="w-3/12">
+          <div className="md:w-2/12 lg:w-3/12">
             <Link to="/">
               <Image src={Logo} alt="Logo" />
             </Link>
           </div>
-          <div className="w-5/12 ">
-            <ul className="flex items-center justify-center gap-15">
+          <div className="md:w-6/12 lg:w-5/12">
+            <ul className="flex items-center justify-center md:gap-8 lg:gap-15">
               <Link to="/">
                 <ListItem text="Home" />
               </Link>
-              <Link onClick={() => handleBreadCrumb('about')} to="about">
+              <Link onClick={() => handleBreadCrumb('about')} to="/about">
                 <ListItem text="About" />
               </Link>
-              <Link onClick={() => handleBreadCrumb('contact')} to="contact">
+              <Link onClick={() => handleBreadCrumb('contact')} to="/contact">
                 <ListItem text="Contact" />
               </Link>
-              <Link onClick={() => handleBreadCrumb('blog')} to="signup">
+              <Link onClick={() => handleBreadCrumb('signup')} to="/signup">
                 <ListItem text="Sign Up" />
               </Link>
             </ul>
@@ -267,14 +289,18 @@ const Navbar = () => {
                     </div>
 
                     {/* Action Buttons arranged side-by-side */}
-                    <div className="flex justify-between mt-5">
-                      <button className="py-4 px-5 bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold text-base uppercase tracking-wider rounded-xl shadow-sm transition-all text-center">
+                    <div onClick={()=>setCartOpen(!cartOpen)} className="flex justify-between mt-5">
+                      <Link to="/cart">
+                      <button className="py-4 px-5 bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold text-base uppercase tracking-wider rounded-xl shadow-sm transition-all text-center cursor-pointer">
                         View Cart
                       </button>
+                      </Link>
 
-                      <button className=" py-4 px-5 bg-linear-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold text-base uppercase rounded-xl shadow-md  transition-all text-center ">
+                      <Link to="/checkout">
+                      <button  className=" py-4 px-5 bg-linear-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold text-base uppercase rounded-xl shadow-md  transition-all text-center cursor-pointer ">
                         <span>Proceed to Checkout</span>
                       </button>
+                      </Link>
                     </div>
                   </footer>:
                   <p className='text-3xl font-pop text-black text-center py-6 font-semibold'>Your Cart is Empty</p>
@@ -282,52 +308,6 @@ const Navbar = () => {
                 </div>
 
 
-                //   {
-                //     data.map((item,index)=>(
-                //       <ul key={index} className="flex items-center pt-5 ">
-                //     <li  className="w-1/5 text-center">{item.title.substring(0,15)}</li>
-
-                //     <li className="w-1/5">
-                //       <Image className="w-full" src={item.image} />
-                //     </li>
-                //     <li className="w-1/5 h-10  border border-black/40 flex justify-between px-2 rounded-md">
-                //       <button onClick={()=>handleDecrement(item)} className="cursor-pointer">-</button>
-
-                //       <button>{item.quantity}</button>
-
-                //       <button onClick={()=>handleIncrement(item)} className="cursor-pointer">+</button>
-                //     </li>
-                //     <li className="w-1/5 text-end">{item.price}</li>
-                //     <li className="w-1/5 text-center">${(item.price*item.quantity.toFixed(2))}</li>
-                //   </ul>
-                //     ))
-                //   }
-
-                //   {
-                //     data.length>0?
-                //     <div className="py-5  border-t mt-10">
-                //     <p className="text-2xl px-2 font-pop font-medium text-end ">
-                //       Total : ${total.toFixed(2)}
-                //     </p>
-
-                //     <div
-
-                //     onClick={()=>setCartOpen(!cartOpen)}
-
-                //     className="flex justify-evenly gap-2 mt-10">
-                //       <Link to="/checkout">
-                //       <Button className="w-full" text="Check Out" />
-                //       </Link>
-
-                //       <Link to="/cart">
-                //       <Button className="w-full" text="Cart" />
-                //       </Link>
-                //     </div>
-                //   </div>:<p className="text-4xl px-2 font-pop font-medium text-center mt-10">
-                //     Cart Empty
-                //     </p>
-                //   }
-                // </div>
               )}
 
               {/* Cart Functionality End */}
@@ -395,6 +375,318 @@ const Navbar = () => {
         </Flex>
       </Container>
     </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+    {/* Mobile Responsive Navbar */}
+      <nav className="md:hidden bg-back py-7">
+      <Container>
+        <Flex className="items-center justify-between px-3">
+          <div>
+            <Link to="/">
+              <Image src={Logo} alt="Logo" className="w-30"/>
+            </Link>
+          </div>
+
+            <div onClick={() => setResMenuOpen(!resMenuOpen)} className='cursor-pointer'>
+
+              {
+                resMenuOpen?<RxCross2  className='text-3xl'/>:<IoMdMenu  className="text-3xl" />
+
+              }
+
+            </div>
+
+
+        </Flex>
+
+
+
+
+        {/* menu */}
+          {
+            resMenuOpen&&
+
+            <ul className="flex flex-col items-center justify-center gap-10 mt-10">
+              <Link onClick={()=>setResMenuOpen(!resMenuOpen)} to="/">
+                <ListItem text="Home" />
+              </Link>
+
+              <Link onClick={handleBreadAbout}  to="/about">
+                <ListItem text="About" />
+              </Link>
+
+              <Link onClick={handleBreadContact}  to="/contact">
+                <ListItem text="Contact" />
+              </Link>
+
+              <Link onClick={handleBreadSignup}  to="/signup">
+                <ListItem text="Sign Up" />
+              </Link>
+            </ul>
+
+          }
+
+
+
+          {/* search cart menu */}
+
+          <div className='mt-10 relative'>
+            <Flex className="items-center justify-center gap-8">
+              {/* Search Functionality Start */}
+              <div
+                onClick={() => setSearchOpen(!searchOpen)}
+                className="flex items-center gap-2 cursor-pointer"
+              >
+                <CiSearch className="text-black text-lg" />
+                <p className="text-black text-base font-pop font-normal">
+                  Search
+                </p>
+              </div>
+
+              {searchOpen && (
+                <div className="absolute top-8 left-0 flex bg-white items-center justify-between px-3 py-2 w-full shadow-lg rounded-md gap-2 z-50">
+                  <input
+                    value={input}
+                    onChange={searchHandle}
+                    type="text"
+                    placeholder="Search the store"
+                    className="bg-white border-none focus:outline-none "
+                  />
+                  <CiSearch className="text-black text-lg" />
+
+                  <div
+                    className={`absolute -top-3 right-40 shadow-lg w-0 h-0
+                 border-l-10 border-l-transparent
+                 border-r-10 border-r-transparent
+                 border-b-12 border-b-white`}
+                  ></div>
+                </div>
+              )}
+
+              {search.length > 0 && (
+                <div className="absolute top-18 left-0 w-full  bg-linear-to-r from-black/40 to-black/70 rounded p-5 z-10">
+                  {search.map((item, index) => (
+                    <ul key={index}>
+                      <Link
+                        onClick={() => {
+                          setInput(item.title)
+                          setSearch([])
+                        }}
+                        to={`productdetails/${item.id}`}
+                      >
+                        <li className="text-white text-xl font-semibold py-3">
+                          {item.title}
+                        </li>
+                      </Link>
+                    </ul>
+                  ))}
+                </div>
+              )}
+
+              {/* Search Functionality End */}
+
+              {/* Cart Functionality Start */}
+
+              <div
+                onClick={() => setCartOpen(!cartOpen)}
+                className="relative flex items-center gap-2 cursor-pointer"
+              >
+                <IoBagOutline className="text-black text-lg" />
+                <p className="text-black text-base font-pop font-normal">
+                  Cart
+                </p>
+                {data.length > 0 && (
+                  <div className="absolute -top-3 -right-3 h-5 w-5 rounded-full bg-yellow-400 flex justify-center items-center">
+                    <p className="text-black text-sm font-pop font-normal">
+                      {data.length}
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {cartOpen && (
+                <div className="absolute top-3 left-0 z-50 w-full my-10 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden font-pop">
+                  {/* 1. Header Section */}
+                  <header className="bg-linear-to-r from-sky-100 via-purple-100 to-pink-100 p-6 flex items-center justify-between">
+                    <div>
+                      <h2 className="text-xl font-bold pb-1 text-slate-800 tracking-tight">
+                        Your Cart
+                      </h2>
+                      <p className="text-xs font-medium text-slate-500">
+                        {`${data.length} items in your cart`}
+                      </p>
+                    </div>
+
+                    <button className="w-9 h-9 rounded-full bg-white/60 hover:bg-white cursor-pointer  flex items-center justify-center transition-colors shadow-sm">
+                      <RxCross2
+                        onClick={() => setCartOpen(false)}
+                        className="text-3xl text-black/60"
+                      />
+                    </button>
+                  </header>
+
+                  {/* 2. Scrollable Cart Items List */}
+                  <div className="max-h-125 overflow-y-auto divide-y divide-slate-100 px-3 py-2 custom-scrollbar">
+                    {/* Item 1 */}
+                    {
+                      data.map((item,index)=>(
+                        <div className="py-5 flex items-center gap-4">
+                      <div className="w-16 h-16 rounded-2xl bg-slate-50 border border-slate-100 shrink-0 overflow-hidden p-1">
+                        <Image src={item.image}/>
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-base font-bold text-slate-800 truncate">
+                         {item.title.substring(0,15)}
+                        </h3>
+                        <span className="text-sm font-semibold text-slate-900">
+                          ${item.price}
+                        </span>
+                      </div>
+
+                      <div className="flex flex-col items-end gap-2">
+                        <div className="flex items-center gap-2">
+                          {/* Quantity Selector */}
+                          <div className="flex items-center bg-slate-100 rounded-xl px-2 py-1 cursor-pointer">
+                            <button onClick={()=>handleDecrement(item)} className="text-slate-500  px-1 font-medium text-base">
+                              -
+                            </button>
+                            <span className="text-base font-bold text-slate-800 px-2">
+                              {item.quantity}
+                            </span>
+                            <button onClick={()=>handleIncrement(item)} className="text-slate-500  px-1 font-medium text-base cursor-pointer">
+                              +
+                            </button>
+                          </div>
+
+                          {/* Trash Button */}
+                          <button onClick={()=>handleRemoveItem(item)} className="text-slate-600 text-xl cursor-pointer hover:text-rose-500 p-1 transition-colors">
+                            <RiDeleteBinLine />
+
+                          </button>
+                        </div>
+                        <p className="text-base text-slate-500 font-medium ">
+                          Subtotal:
+                          <span className="font-bold text-slate-700 pl-2">
+                            {(item.quantity*item.price.toFixed(2))}
+                          </span>
+                        </p>
+                      </div>
+                    </div>
+                      ))
+                    }
+                  </div>
+
+                  {/* 3. Footer Section (Modified Layout & Soft Light Aesthetic) */}
+                 {
+                  data.length>0? <footer className="py-6 px-2 bg-slate-50 border-t border-slate-100 flex flex-col gap-4">
+                    {/* Total Price Display */}
+                    <div className="flex justify-between items-baseline">
+                      <span className="text-sm font-semibold text-slate-500 uppercase tracking-wider">
+                        Total
+                      </span>
+                      <span className="text-2xl font-black text-slate-900 tracking-tight">
+                        ${total.toFixed(2)}
+                      </span>
+                    </div>
+
+                    {/* Action Buttons arranged side-by-side */}
+                    <div onClick={()=>setCartOpen(!cartOpen)} className="flex justify-between mt-5">
+                      <Link to="/cart">
+                      <button className="py-4 px-5 bg-white border border-slate-200 hover:border-slate-300 text-slate-700 font-bold text-base uppercase tracking-wider rounded-xl shadow-sm transition-all text-center cursor-pointer">
+                        View Cart
+                      </button>
+                      </Link>
+
+                      <Link to="/checkout">
+                      <button  className=" py-4 px-5 bg-linear-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white font-bold text-base uppercase rounded-xl shadow-md  transition-all text-center cursor-pointer ">
+                        <span>Proceed to Checkout</span>
+                      </button>
+                      </Link>
+                    </div>
+                  </footer>:
+                  <p className='text-3xl font-pop text-black text-center py-6 font-semibold'>Your Cart is Empty</p>
+                 }
+                </div>
+
+
+              )}
+
+              {/* Cart Functionality End */}
+
+              <div onClick={() => setAccountOpen(!accountOpen)}>
+                <GiHamburgerMenu className="text-black text-lg cursor-pointer" />
+              </div>
+
+              {accountOpen && (
+                <div
+                  onClick={() => setAccountOpen(!accountOpen)}
+                  className="absolute top-full right-0 mt-3 w-64 bg-white border border-gray-200 shadow-lg p-5 z-50"
+                >
+                  <h3 className="text-3xl font-semibold text-gray-700 mb-5">
+                    My Account
+                  </h3>
+
+                  <ul className="flex flex-col gap-y-4">
+                    <Link to="/login">
+                      <li className="text-2xl text-gray-700 font-pop hover:text-orange-500 transition cursor-pointer">
+                        Sign in
+                      </li>
+                    </Link>
+
+                    <Link to="/signup">
+                      <li className="text-2xl text-gray-700 font-pop hover:text-orange-500 transition cursor-pointer">
+                        Register
+                      </li>
+                    </Link>
+                  </ul>
+
+                  <h4 className="mt-6 mb-4 text-2xl font-semibold text-gray-70 font-pop">
+                    currency
+                  </h4>
+
+                  <ul className="space-y-4">
+                    <li>
+                      <button className="flex items-center gap-3 hover:text-orange-500 transition cursor-pointer">
+                        <Image
+                          src={Us}
+                          alt="USA"
+                          className="w-6 h-4 object-cover"
+                        />
+                        <span className="text-xl text-gray-700">USD</span>
+                      </button>
+                    </li>
+
+                    <li>
+                      <button className="flex items-center gap-3 hover:text-orange-500 transition cursor-pointer">
+                        <Image
+                          src={Au}
+                          alt="Australia"
+                          className="w-6 h-4 object-cover"
+                        />
+                        <span className="text-xl text-gray-700">
+                          Australian Dollar
+                        </span>
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </Flex>
+          </div>
+      </Container>
+    </nav>
+    </div>
   )
 }
 
