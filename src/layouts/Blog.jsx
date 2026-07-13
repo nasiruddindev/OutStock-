@@ -16,7 +16,7 @@ const Blog = ({ products }) => {
 
 
 
-          <Flex className="justify-between py-13">
+          <Flex className="flex-col sm:flex-row justify-center  sm:justify-between py-13 gap-y-15 sm:gap-y-0">
             {
               products.slice(17,20).map((item,index)=>(
                 <BlogCard id={item.id} key={index} src={item.thumbnail} title={item.title} description={item.description}/>

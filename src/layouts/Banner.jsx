@@ -29,13 +29,13 @@ const Banner = () => {
             ?"opacity-100 translate-y-100"
             :"opacity-0 translate-y-0"
           }`}>
-            <p className="text-2xl font-pop uppercase tracking-widest text-orange-400 font-semibold mb-1">Think Different | Do Otherwise</p>
-            <h3 className="text-xl font-pop font-medium">Acme Widgets & Designs</h3>
+            <p className="text-xl md:text-2xl font-pop uppercase tracking-widest text-orange-400 font-semibold mb-1">Think Different | Do Otherwise</p>
+            <h3 className="text-base md:text-xl font-pop font-medium">Acme Widgets & Designs</h3>
           </div>
           </div>
         </div>
 
-        <Flex className="bg-white shadow-xl justify-between px-7.5 pb-12.5">
+        <Flex className="flex-col md:flex-row gap-y-10 md:gap-y-0 bg-white shadow-xl items-center justify-between px-7.5 pb-12.5">
           <div><BannerCard src={BannerCardImage1} /></div>
           <div><BannerCard src={BannerCardImage2} /></div>
           <div><BannerCard src={BannerCardImage3} /></div>

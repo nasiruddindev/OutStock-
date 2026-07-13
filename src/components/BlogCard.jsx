@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 
 const BlogCard = ({id,src,title,date,description}) => {
   return (
-    <div className='w-92.5'>
+    <div className='md:w-92.5'>
       <div className='w-full h-75 bg-back flex justify-center items-center'>
         <Link to={`productdetails/${id}`}>
         <Image src={src} />

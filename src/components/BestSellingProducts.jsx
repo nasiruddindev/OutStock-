@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 const BestSellingProducts = ({id,src,title,salePrice}) => {
   return (
     <Flex className="items-center gap-x-2 cursor-pointer">
-      <div className='w-22 h-27 bg-back flex justify-center items-center'>
+      <div className='w-22 h-27 sm:w-18 sm:h-20 md:w-22 md:h-27 bg-back flex justify-center items-center'>
         <Link to={`productdetails/${id}`}>
         <Image src={src}/>
         </Link>
@@ -15,7 +15,7 @@ const BestSellingProducts = ({id,src,title,salePrice}) => {
 
       <div>
         <Link to={`productdetails/${id}`}>
-        <Pera text={title} className="pb-10"/>
+        <Pera text={title} className="pb-10 sm:pb-5 md:pb-10"/>
         </Link>
         <Pera text={salePrice} className={`text-black!`} />
       </div>
