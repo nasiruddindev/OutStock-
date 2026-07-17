@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import Container from '../components/Container'
 import Flex from '../components/Flex'
 import Image from '../components/Image'
@@ -24,6 +24,28 @@ const Navbar = () => {
   let [cartOpen, setCartOpen] = useState(false)
   let [searchOpen, setSearchOpen] = useState(false)
   let [accountOpen, setAccountOpen] = useState(false)
+
+  // Refs for outside-click detection
+  let searchRef = useRef(null)
+  let cartRef = useRef(null)
+  let accountRef = useRef(null)
+
+  // Close dropdowns on outside click
+  useEffect(() => {
+    let handleClickOutside = (e) => {
+      if (searchRef.current && !searchRef.current.contains(e.target)) {
+        setSearchOpen(false)
+      }
+      if (cartRef.current && !cartRef.current.contains(e.target)) {
+        setCartOpen(false)
+      }
+      if (accountRef.current && !accountRef.current.contains(e.target)) {
+        setAccountOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   // Search box functionallity start
 
@@ -129,7 +151,7 @@ const Navbar = () => {
 
           {/* Search Functionality Start */}
 
-          <div className="w-4/12 relative">
+          <div className="w-4/12 relative" >
             <Flex className="items-center justify-end gap-8">
               <div
                 onClick={() => setSearchOpen(!searchOpen)}
@@ -142,7 +164,7 @@ const Navbar = () => {
               </div>
 
               {searchOpen && (
-                <div className="absolute top-8 left-0 flex bg-white items-center justify-between px-3 py-2 w-full shadow-lg rounded-md gap-2 z-50">
+                <div ref={searchRef} className="absolute top-8 left-0 flex bg-white items-center justify-between px-3 py-2 w-full shadow-lg rounded-md gap-2 z-50">
                   <input
                     value={input}
                     onChange={searchHandle}
@@ -186,6 +208,7 @@ const Navbar = () => {
               {/* Cart Functionality Start */}
 
               <div
+                ref={cartRef}
                 onClick={() => setCartOpen(!cartOpen)}
                 className="relative flex items-center gap-2 cursor-pointer"
               >
@@ -312,7 +335,7 @@ const Navbar = () => {
 
               {/* Cart Functionality End */}
 
-              <div onClick={() => setAccountOpen(!accountOpen)}>
+              <div ref={accountRef} onClick={() => setAccountOpen(!accountOpen)}>
                 <GiHamburgerMenu className="text-black text-lg cursor-pointer" />
               </div>
 
@@ -454,7 +477,7 @@ const Navbar = () => {
               </div>
 
               {searchOpen && (
-                <div className="absolute top-8 left-0 flex bg-white items-center justify-between px-3 py-2 w-full shadow-lg rounded-md gap-2 z-50">
+                <div  ref={searchRef} className="absolute top-8 left-0 flex bg-white items-center justify-between px-3 py-2 w-full shadow-lg rounded-md gap-2 z-50">
                   <input
                     value={input}
                     onChange={searchHandle}
@@ -498,6 +521,7 @@ const Navbar = () => {
               {/* Cart Functionality Start */}
 
               <div
+                ref={cartRef}
                 onClick={() => setCartOpen(!cartOpen)}
                 className="relative flex items-center gap-2 cursor-pointer"
               >

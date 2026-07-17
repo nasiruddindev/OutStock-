@@ -14,6 +14,14 @@ import { useDispatch } from 'react-redux'
 import { addtocard } from '../slices/addToCardSlice'
 
 const ProductDetailsPage = () => {
+
+  useEffect(()=>{
+
+    window.scrollTo({top:0})
+
+  },[])
+
+
   // Related Item Show part start
 
   const [products, setProducts] = useState([])
