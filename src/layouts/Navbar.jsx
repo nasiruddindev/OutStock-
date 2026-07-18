@@ -25,27 +25,24 @@ const Navbar = () => {
   let [searchOpen, setSearchOpen] = useState(false)
   let [accountOpen, setAccountOpen] = useState(false)
 
-  // Refs for outside-click detection
-  let searchRef = useRef(null)
-  let cartRef = useRef(null)
-  let accountRef = useRef(null)
-
-  // Close dropdowns on outside click
-  useEffect(() => {
-    let handleClickOutside = (e) => {
-      if (searchRef.current && !searchRef.current.contains(e.target)) {
-        setSearchOpen(false)
-      }
-      if (cartRef.current && !cartRef.current.contains(e.target)) {
-        setCartOpen(false)
-      }
-      if (accountRef.current && !accountRef.current.contains(e.target)) {
-        setAccountOpen(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
+  const handleSearchOpen = () => {
+    setSearchOpen(!searchOpen)
+    setCartOpen(false)
+    setAccountOpen(false)
+    setShowInput(true)
+  }
+  const handleCartOpen = () => {
+    setCartOpen(!cartOpen)
+    setSearchOpen(false)
+    setAccountOpen(false)
+    setShowCart(true)
+  }
+  const handleAccountOpen = () => {
+    setAccountOpen(!accountOpen)
+    setCartOpen(false)
+    setSearchOpen(false)
+    setShowAccount(true)
+  }
 
   // Search box functionallity start
 
@@ -115,6 +112,43 @@ const Navbar = () => {
   }
   // BreadCrumb Function end
 
+  // search cart account hide functionallity start
+
+  const [showSearch,setShowSearch] = useState(false)
+  const [showInput,setShowInput] = useState(false)
+  const [showCart,setShowCart] = useState(false)
+  const [showAccount,setShowAccount] = useState(false)
+  const searchRef = useRef(null)
+  const inputRef = useRef(null)
+  const cartRef = useRef(null)
+  const accountRef = useRef(null)
+
+  useEffect(()=>{
+    let handleClickOutsie = (e) => {
+      if(searchRef.current && !searchRef.current.contains(e.target.value)){
+        setShowSearch(false)
+      }
+      if(inputRef.current && !inputRef.current.contains(e.target.value)){
+        setShowInput(false)
+      }
+      if( cartRef.current && !cartRef.current.contains(e.target.value)){
+        setShowCart(false)
+      }
+      if( accountRef.current && !accountRef.current.contains(e.target.value)){
+        setShowAccount(false)
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutsie)
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsie)
+    }
+
+  },[])
+
+
+  // search cart account hide functionallity end
+
 
   // Responsive part start
 
@@ -154,7 +188,7 @@ const Navbar = () => {
           <div className="w-4/12 relative" >
             <Flex className="items-center justify-end gap-8">
               <div
-                onClick={() => setSearchOpen(!searchOpen)}
+                onClick={handleSearchOpen}
                 className="flex items-center gap-2 cursor-pointer"
               >
                 <CiSearch className="text-black text-lg" />
@@ -163,11 +197,12 @@ const Navbar = () => {
                 </p>
               </div>
 
-              {searchOpen && (
-                <div ref={searchRef} className="absolute top-8 left-0 flex bg-white items-center justify-between px-3 py-2 w-full shadow-lg rounded-md gap-2 z-50">
+              {searchOpen && showInput&& (
+                <div ref={inputRef} className="absolute top-8 left-0 flex bg-white items-center justify-between px-3 py-2 w-full shadow-lg rounded-md gap-2 z-50">
                   <input
                     value={input}
                     onChange={searchHandle}
+                    onFocus={()=>setShowSearch(true)}
                     type="text"
                     placeholder="Search the store"
                     className="bg-white border-none focus:outline-none "
@@ -183,8 +218,8 @@ const Navbar = () => {
                 </div>
               )}
 
-              {search.length > 0 && (
-                <div className="absolute top-18 left-0 w-full  bg-linear-to-r from-black/40 to-black/70 rounded p-5 z-10">
+              {search.length > 0 && showSearch && (
+                <div ref={searchRef} className="absolute top-18 left-0 w-full  bg-linear-to-r from-black/40 to-black/70 rounded p-5 z-10">
                   {search.map((item, index) => (
                     <ul key={index}>
                       <Link
@@ -208,8 +243,8 @@ const Navbar = () => {
               {/* Cart Functionality Start */}
 
               <div
-                ref={cartRef}
-                onClick={() => setCartOpen(!cartOpen)}
+
+                onClick={handleCartOpen}
                 className="relative flex items-center gap-2 cursor-pointer"
               >
                 <IoBagOutline className="text-black text-lg" />
@@ -225,8 +260,8 @@ const Navbar = () => {
                 )}
               </div>
 
-              {cartOpen && (
-                <div className="absolute top-3 left-0 z-50 w-full my-10 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden font-pop">
+              {cartOpen && showCart && (
+                <div ref={cartRef} className="absolute top-3 left-0 z-50 w-full my-10 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden font-pop">
                   {/* 1. Header Section */}
                   <header className="bg-linear-to-r from-sky-100 via-purple-100 to-pink-100 p-6 flex items-center justify-between">
                     <div>
@@ -335,13 +370,13 @@ const Navbar = () => {
 
               {/* Cart Functionality End */}
 
-              <div ref={accountRef} onClick={() => setAccountOpen(!accountOpen)}>
+              <div  onClick={handleAccountOpen}>
                 <GiHamburgerMenu className="text-black text-lg cursor-pointer" />
               </div>
 
-              {accountOpen && (
+              {accountOpen && showAccount && (
                 <div
-                  onClick={() => setAccountOpen(!accountOpen)}
+                  ref={accountRef}
                   className="absolute top-full right-0 mt-3 w-64 bg-white border border-gray-200 shadow-lg p-5 z-50"
                 >
                   <h3 className="text-3xl font-semibold text-gray-700 mb-5">
@@ -477,7 +512,7 @@ const Navbar = () => {
               </div>
 
               {searchOpen && (
-                <div  ref={searchRef} className="absolute top-8 left-0 flex bg-white items-center justify-between px-3 py-2 w-full shadow-lg rounded-md gap-2 z-50">
+                <div className="absolute top-8 left-0 flex bg-white items-center justify-between px-3 py-2 w-full shadow-lg rounded-md gap-2 z-50">
                   <input
                     value={input}
                     onChange={searchHandle}
@@ -521,7 +556,7 @@ const Navbar = () => {
               {/* Cart Functionality Start */}
 
               <div
-                ref={cartRef}
+
                 onClick={() => setCartOpen(!cartOpen)}
                 className="relative flex items-center gap-2 cursor-pointer"
               >
