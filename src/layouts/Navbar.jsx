@@ -379,9 +379,11 @@ const Navbar = () => {
                   ref={accountRef}
                   className="absolute top-full right-0 mt-3 w-64 bg-white border border-gray-200 shadow-lg p-5 z-50"
                 >
+                  <Link to="/account">
                   <h3 className="text-3xl font-semibold text-gray-700 mb-5">
                     My Account
                   </h3>
+                  </Link>
 
                   <ul className="flex flex-col gap-y-4">
                     <Link to="/login">
@@ -502,7 +504,8 @@ const Navbar = () => {
             <Flex className="items-center justify-center gap-8">
               {/* Search Functionality Start */}
               <div
-                onClick={() => setSearchOpen(!searchOpen)}
+                ref={inputRef}
+                onClick={handleSearchOpen}
                 className="flex items-center gap-2 cursor-pointer"
               >
                 <CiSearch className="text-black text-lg" />
@@ -511,11 +514,12 @@ const Navbar = () => {
                 </p>
               </div>
 
-              {searchOpen && (
-                <div className="absolute top-8 left-0 flex bg-white items-center justify-between px-3 py-2 w-full shadow-lg rounded-md gap-2 z-50">
+              {searchOpen && showInput && (
+                <div className="absolute top-8 left-0 flex bg-white items-center justify-between px-3 py-2 w-8/12 shadow-lg rounded-md gap-2 z-50">
                   <input
                     value={input}
                     onChange={searchHandle}
+                    onFocus={()=>setShowSearch(true)}
                     type="text"
                     placeholder="Search the store"
                     className="bg-white border-none focus:outline-none "
@@ -531,8 +535,8 @@ const Navbar = () => {
                 </div>
               )}
 
-              {search.length > 0 && (
-                <div className="absolute top-18 left-0 w-full  bg-linear-to-r from-black/40 to-black/70 rounded p-5 z-10">
+              {search.length > 0 && showSearch && (
+                <div  ref={searchRef} className="absolute top-18 left-0 w-full  bg-linear-to-r from-black/40 to-black/70 rounded p-5 z-10">
                   {search.map((item, index) => (
                     <ul key={index}>
                       <Link
@@ -557,7 +561,7 @@ const Navbar = () => {
 
               <div
 
-                onClick={() => setCartOpen(!cartOpen)}
+                onClick={handleCartOpen}
                 className="relative flex items-center gap-2 cursor-pointer"
               >
                 <IoBagOutline className="text-black text-lg" />
@@ -573,8 +577,8 @@ const Navbar = () => {
                 )}
               </div>
 
-              {cartOpen && (
-                <div className="absolute top-3 left-0 z-50 w-full my-10 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden font-pop">
+              {cartOpen && showCart && (
+                <div ref={cartRef} className="absolute top-3 left-0 z-50 w-full my-10 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden font-pop">
                   {/* 1. Header Section */}
                   <header className="bg-linear-to-r from-sky-100 via-purple-100 to-pink-100 p-6 flex items-center justify-between">
                     <div>
@@ -683,18 +687,20 @@ const Navbar = () => {
 
               {/* Cart Functionality End */}
 
-              <div onClick={() => setAccountOpen(!accountOpen)}>
+              <div onClick={handleAccountOpen}>
                 <GiHamburgerMenu className="text-black text-lg cursor-pointer" />
               </div>
 
-              {accountOpen && (
+              {accountOpen && showAccount && (
                 <div
-                  onClick={() => setAccountOpen(!accountOpen)}
+                  ref={accountRef}
                   className="absolute top-full right-0 mt-3 w-64 bg-white border border-gray-200 shadow-lg p-5 z-50"
                 >
+                  <Link to="/account">
                   <h3 className="text-3xl font-semibold text-gray-700 mb-5">
                     My Account
                   </h3>
+                  </Link>
 
                   <ul className="flex flex-col gap-y-4">
                     <Link to="/login">
