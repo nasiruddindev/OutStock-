@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Pera = ({ text, className }) => {
+const Pera = ({ text, className,onClick }) => {
   return (
-    <p className={`text-primary text-sm font-pop font-normal ${className}`}>
+    <p onClick={onClick} className={`text-primary text-sm font-pop font-normal ${className}`}>
       {text}
     </p>
   )
